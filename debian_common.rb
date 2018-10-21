@@ -73,13 +73,6 @@ dep 'tar', :version do
   meet { apt_install 'tar', version }
 end
 
-# TODO(nickt): Move to own target
-dep 'vim', :version do
-  version.default!('2:8.0.0197-4+deb9u1')
-  met? { apt_installed? 'vim', version }
-  meet { apt_install 'vim', version }
-end
-
 dep 'debian-common' do
   requires 'curl'
   requires 'dnsutils'
@@ -91,5 +84,4 @@ dep 'debian-common' do
   requires 'net-tools'
   requires 'software-properties-common'
   requires 'tar'
-  requires 'vim'
 end
