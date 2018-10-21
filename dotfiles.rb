@@ -90,26 +90,6 @@ dep '.paths link' do
   meet { link_dotfile name }
 end
 
-# TODO(nickt): Move to tmux dep
-dep '.tmux-status.conf link' do
-  def name
-    '.tmux-status.conf'
-  end
-  requires 'dotfiles-repo', 'development dir'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-# TODO(nickt): Move to tmux dep
-dep '.tmux.conf link' do
-  def name
-    '.tmux.conf'
-  end
-  requires 'dotfiles-repo', 'development dir'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
 dep 'dotfiles' do
   requires [
     'dotfiles-repo',
@@ -120,7 +100,5 @@ dep 'dotfiles' do
     '.functions link',
     '.inputrc link',
     '.paths link',
-    '.tmux-status.conf link',
-    '.tmux.conf link',
   ]
 end

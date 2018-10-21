@@ -1,4 +1,4 @@
-dep 'tmux', :version  do
+dep 'tmux.bin.local', :version  do
   requires 'git.local'
   version.default!('2.8')
   met? { shell? "tmux -V | grep #{version}" }
@@ -24,4 +24,30 @@ dep 'tmux', :version  do
       sudo make install
     HERE
   }
+end
+
+dep 'tmux.conf' do
+  def name
+    '.tmux.conf'
+  end
+  requires 'dotfiles-repo', 'development dir'
+  met? { dotfile_exists? name }
+  meet { link_dotfile name }
+end
+
+dep 'tmux-status.conf' do
+  def name
+    '.tmux-status.conf'
+  end
+  requires 'dotfiles-repo', 'development dir'
+  met? { dotfile_exists? name }
+  meet { link_dotfile name }
+end
+
+dep 'tmux.dotfiles' do
+  requires 'tmux.conf', 'tmux-status.conf'
+end
+
+dep 'tmux' do
+  requires 'tmux.bin.local', 'tmux.dotfiles'
 end
