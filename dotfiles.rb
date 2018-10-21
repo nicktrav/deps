@@ -110,16 +110,6 @@ dep '.tmux.conf link' do
   meet { link_dotfile name }
 end
 
-# TODO(nickt): Move to vim dep
-dep '.vimrc link' do
-  def name
-    '.vimrc'
-  end
-  requires 'dotfiles-repo', 'development dir'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
 dep 'dotfiles' do
   requires [
     'dotfiles-repo',
@@ -132,6 +122,5 @@ dep 'dotfiles' do
     '.paths link',
     '.tmux-status.conf link',
     '.tmux.conf link',
-    '.vimrc link',
   ]
 end
