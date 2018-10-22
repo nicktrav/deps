@@ -24,15 +24,3 @@ def link_dotfile(filename)
   raise "dotfile must start with a ." unless filename.start_with? '.'
   shell "ln -s #{dotfiles_file(filename)} ~/#{filename}"
 end
-
-def rustup
-  '~/.cargo/bin/rustup'
-end
-
-def rustc
-  '~/.cargo/bin/rustc'
-end
-
-def cargo
-  '~/.cargo/bin/cargo'
-end
