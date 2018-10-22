@@ -6,12 +6,20 @@ def apt_install(package, version)
   shell "apt-get -y install #{package}=#{version}", sudo: true
 end
 
+def dotfiles_dir
+  "~/Development/dotfiles".p
+end
+
+def dotfiles_file(file)
+  "#{dotfiles_dir}/#{file}".p
+end
+
 def dotfile_exists?(filename)
   "~/#{filename}".p.exists?
 end
 
 def link_dotfile(filename)
-  shell "ln -s ~/Development/dotfiles/#{filename} ~/#{filename}"
+  shell "ln -s #{dotfiles_dir}/#{filename} ~/#{filename}"
 end
 
 def rustup

@@ -15,6 +15,28 @@ dep 'vim.dotfiles' do
   meet { link_dotfile name }
 end
 
+dep 'vim.colors' do
+  def colors_dir
+    '~/.vim/colors'.p
+  end
+
+  def filename
+    'Tomorrow-Night.vim'
+  end
+
+  def colors_file
+    "#{colors_dir}/#{filename}".p
+  end
+
+  requires 'dotfiles-repo'
+  met? { colors_file.exists? }
+  meet {
+    cd colors_dir, create: true do
+      shell "ln -s #{dotfiles_file('colors/' + filename)} #{colors_file}"
+    end
+  }
+end
+
 dep 'vim' do
-  requires 'vim.bin.local', 'vim.dotfiles'
+  requires 'vim.bin.local', 'vim.dotfiles', 'vim.colors'
 end
