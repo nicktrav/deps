@@ -1,104 +1,121 @@
 require_relative './helpers.rb'
 
-dep 'dotfiles-repo', :version  do
-  def dir
-    '~/Development/dotfiles'.p
+meta :dotfile do
+  def dotfiles_dir
+    "~/Development/dotfiles".p
   end
 
+  def dotfiles_file(filename)
+    raise "dotfile must start with a ." unless filename.start_with? '.'
+    "#{dotfiles_dir}/#{filename}".p
+  end
+
+  def dotfile_exists?(filename)
+    raise "dotfile must start with a ." unless filename.start_with? '.'
+    "~/#{filename}".p.exists?
+  end
+
+  def link_dotfile(filename)
+    raise "dotfile must start with a ." unless filename.start_with? '.'
+    shell "ln -s #{dotfiles_file(filename)} ~/#{filename}"
+  end
+end
+
+dep 'repo.dotfile', :version  do
   requires 'git.local', 'development dir'
   version.default!('master')
-  met? { dir.exists? }
+  met? { dotfiles_dir.exists? }
   meet {
     shell <<-HERE
       git clone \
         --branch #{version} \
         --single-branch https://github.com/nicktrav/dotfiles.git \
-        #{dir}
+        #{dotfiles_dir}
     HERE
   }
 end
 
-dep '.aliases link' do
+dep '.aliases.dotfile' do
   def name
     '.aliases'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.bash_profile link' do
+dep '.bash_profile.dotfile' do
   def name
     '.bash_profile'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.bash_prompt link' do
+dep '.bash_prompt.dotfile' do
   def name
     '.bash_prompt'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.docker_functions link' do
+dep '.docker_functions.dotfile' do
   def name
     '.docker_functions'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.functions link' do
+dep '.functions.dotfile' do
   def name
     '.functions'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.gitconfig link' do
+dep '.gitconfig.dotfile' do
   def name
     '.gitconfig'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.inputrc link' do
+dep '.inputrc.dotfile' do
   def name
     '.inputrc'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep '.paths link' do
+dep '.paths.dotfile' do
   def name
     '.paths'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
 dep 'dotfiles' do
   requires [
-    'dotfiles-repo',
-    '.aliases link',
-    '.bash_profile link',
-    '.bash_prompt link',
-    '.docker_functions link',
-    '.functions link',
-    '.inputrc link',
-    '.paths link',
+    'repo.dotfile',
+    '.aliases.dotfile',
+    '.bash_profile.dotfile',
+    '.bash_prompt.dotfile',
+    '.docker_functions.dotfile',
+    '.functions.dotfile',
+    '.inputrc.dotfile',
+    '.paths.dotfile',
   ]
 end
