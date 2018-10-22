@@ -4,13 +4,6 @@ dep 'autoconf.apt', :version do
   meet { apt_install 'autoconf', version }
 end
 
-# TODO(nickt): Move to own target
-dep 'curl.apt', :version do
-  version.default!('7.52.1-5+deb9u7')
-  met? { apt_installed? 'curl', version }
-  meet { apt_install 'curl', version }
-end
-
 dep 'dnsutils.apt', :version do
   version.default!('1:9.10.3.dfsg.P4-12.3+deb9u4')
   met? { apt_installed? 'dnsutils', version }
@@ -39,6 +32,13 @@ dep 'htop.apt', :version do
   version.default!('2.0.2-1')
   met? { apt_installed? 'htop', version }
   meet { apt_install 'htop', version }
+end
+
+dep 'libtoolize.apt' do
+  met? { in_path? "libtoolize" }
+  meet {
+    shell 'apt-get -y install libtool', sudo: true
+  }
 end
 
 dep 'make.apt', :version do
@@ -72,7 +72,6 @@ dep 'tar.apt', :version do
 end
 
 dep 'debian-common' do
-  requires 'curl.apt'
   requires 'dnsutils.apt'
   requires 'file.apt'
   requires 'gcc.apt'

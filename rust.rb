@@ -13,7 +13,7 @@ meta :rust do
 end
 
 dep 'rustup.rust' do
-  requires 'curl.apt'
+  requires 'curl'
   met? { shell? "#{rustup} --version" }
   meet {
     shell <<-HERE
