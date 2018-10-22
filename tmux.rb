@@ -26,28 +26,28 @@ dep 'tmux.bin.local', :version  do
   }
 end
 
-dep 'tmux.conf' do
+dep 'tmux.conf.dotfile' do
   def name
     '.tmux.conf'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile', 'development dir'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep 'tmux-status.conf' do
+dep 'tmux-status.conf.dotfile' do
   def name
     '.tmux-status.conf'
   end
-  requires 'dotfiles-repo', 'development dir'
+  requires 'repo.dotfile', 'development dir'
   met? { dotfile_exists? name }
   meet { link_dotfile name }
 end
 
-dep 'tmux.dotfiles' do
-  requires 'tmux.conf', 'tmux-status.conf'
+dep 'tmux.dotfile' do
+  requires 'tmux.conf.dotfile', 'tmux-status.conf.dotfile'
 end
 
 dep 'tmux' do
-  requires 'tmux.bin.local', 'tmux.dotfiles'
+  requires 'tmux.bin.local', 'tmux.dotfile'
 end
