@@ -1,13 +1,5 @@
-dep 'git.local', :version do
-  version.default!('2.11.0')
-  requires_when_unmet 'git.bin.local'.with(version)
-  met? { in_path? "git >= #{version}" }
-end
-
-dep 'git.bin.local', :version do
-  version.default!('2.11.0')
-  installs {
-    via :apt, 'git-core'
-  }
-  provides "git >= #{version}"
+dep 'git.apt', :version do
+  version.default!('1:2.11.0-3+deb9u4')
+  met? { apt_installed? 'git', version }
+  meet { apt_install 'git', version }
 end

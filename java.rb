@@ -1,5 +1,5 @@
 dep 'java', :version  do
-  requires 'curl', 'tar'
+  requires 'curl.apt', 'tar.apt'
   version.default!('10')
   met? { shell? "java -version 2>&1 | grep #{version}" }
   meet {
