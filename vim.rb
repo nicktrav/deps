@@ -1,6 +1,4 @@
-require_relative './helpers.rb'
-
-dep 'vim.bin.local', :version do
+dep 'vim.apt', :version do
   version.default!('2:8.0.0197-4+deb9u1')
   met? { apt_installed? 'vim', version }
   meet { apt_install 'vim', version }
@@ -38,5 +36,5 @@ dep 'vim.colors' do
 end
 
 dep 'vim' do
-  requires 'vim.bin.local', 'vim.dotfiles', 'vim.colors'
+  requires 'vim.apt', 'vim.dotfiles', 'vim.colors'
 end

@@ -1,5 +1,5 @@
 dep 'golang', :version  do
-  requires 'curl', 'tar', 'dotfiles'
+  requires 'curl.apt', 'tar.apt', 'dotfiles'
   version.default!('1.11')
   met? { shell? "go version | grep #{version}" }
   meet {

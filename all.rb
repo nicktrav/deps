@@ -11,7 +11,7 @@ dep 'core software' do
   requires {
     on :debian, [
       'debian-common',
-      'git.local',
+      'git.apt',
       'ctags',
       'fonts',
       'fzf',

@@ -1,5 +1,5 @@
 dep 'shellcheck', :version do
-  requires 'curl', 'tar'
+  requires 'curl.apt', 'tar.apt'
   version.default!('0.4.7')
   met? { shell? "shellcheck --version | grep #{version}" }
   meet do

@@ -1,5 +1,3 @@
-require_relative './helpers.rb'
-
 meta :rust do
   def rustup
     '~/.cargo/bin/rustup'
@@ -15,7 +13,7 @@ meta :rust do
 end
 
 dep 'rustup.rust' do
-  requires 'curl'
+  requires 'curl.apt'
   met? { shell? "#{rustup} --version" }
   meet {
     shell <<-HERE

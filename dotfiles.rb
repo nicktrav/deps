@@ -1,5 +1,3 @@
-require_relative './helpers.rb'
-
 meta :dotfile do
   def dotfiles_dir
     "~/Development/dotfiles".p
@@ -22,7 +20,7 @@ meta :dotfile do
 end
 
 dep 'repo.dotfile', :version  do
-  requires 'git.local', 'development dir'
+  requires 'git.apt', 'development dir'
   version.default!('master')
   met? { dotfiles_dir.exists? }
   meet {
