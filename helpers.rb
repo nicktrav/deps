@@ -10,16 +10,19 @@ def dotfiles_dir
   "~/Development/dotfiles".p
 end
 
-def dotfiles_file(file)
-  "#{dotfiles_dir}/#{file}".p
+def dotfiles_file(filename)
+  raise "dotfile must start with a ." unless filename.start_with? '.'
+  "#{dotfiles_dir}/#{filename}".p
 end
 
 def dotfile_exists?(filename)
+  raise "dotfile must start with a ." unless filename.start_with? '.'
   "~/#{filename}".p.exists?
 end
 
 def link_dotfile(filename)
-  shell "ln -s #{dotfiles_dir}/#{filename} ~/#{filename}"
+  raise "dotfile must start with a ." unless filename.start_with? '.'
+  shell "ln -s #{dotfiles_file(filename)} ~/#{filename}"
 end
 
 def rustup
