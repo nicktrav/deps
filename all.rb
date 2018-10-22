@@ -17,7 +17,7 @@ dep 'core software' do
       'fzf',
       'golang',
       'java',
-      'rust.all',
+      'rust',
       'shellcheck',
       'tmux'
     ]
