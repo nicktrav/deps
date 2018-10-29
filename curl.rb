@@ -1,5 +1,5 @@
 dep 'curl', :version do
-  requires 'git.apt', 'libtoolize.apt', 'openssl'
+  requires 'git.apt', 'libtoolize.apt', 'autoconf.apt', 'openssl'
   version.default!('7.61.1')
   met? { shell? "curl --version | grep #{version}" }
   meet {
