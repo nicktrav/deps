@@ -1,0 +1,7 @@
+FROM debian:stretch
+
+RUN apt-get -y update && \
+  apt-get install -y curl lsb-release ruby sudo && \
+  sudo sh -c "$(curl https://babushka.me/up)"
+
+ADD . /root/.babushka/deps

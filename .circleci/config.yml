@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:latest
+    working_directory: /source
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: docker build -t nicktrav/dotfiles-debian -f Dockerfile-debian .
+      - run:
+          command: docker run --rm -it nicktrav/dotfiles-debian babushka all --debug
