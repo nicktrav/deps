@@ -19,7 +19,9 @@ dep 'core software' do
       'java',
       'rust',
       'shellcheck',
-      'tmux'
+      'tmux',
+      'openssl',
+      'curl'
     ]
   }
 end
