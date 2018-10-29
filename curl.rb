@@ -9,7 +9,7 @@ dep 'curl', :version do
       cd 'curl' do
         shell "git checkout curl-#{version.to_s.gsub('.', '_')}"
         shell './buildconf'
-        shell './configure --with-ssl=/usr/local/ssl'
+        shell 'LDFLAGS="-Wl,-rpath,/usr/local/ssl/lib -Wl,-rpath,/usr/local/lib" ./configure --with-ssl=/usr/local/ssl'
         shell 'make'
         shell 'make install', sudo: true
       end
