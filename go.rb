@@ -1,4 +1,4 @@
-dep 'golang', :version  do
+dep 'go.lang', :version  do
   requires 'curl', 'tar.apt', 'dotfiles'
   version.default!('1.11')
   met? { shell? "go version | grep #{version}" }
@@ -12,4 +12,14 @@ dep 'golang', :version  do
       rm #{tarball}
     HERE
   }
+end
+
+dep 'protoc-gen-go' do
+  requires 'go.lang'
+  met? { shell 'go list ... | grep github.com/golang/protobuf/protoc-gen-go' }
+  meet { shell 'go get -u github.com/golang/protobuf/protoc-gen-go' }
+end
+
+dep 'go' do
+  requires 'go.lang', 'protoc-gen-go'
 end

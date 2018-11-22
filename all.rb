@@ -15,7 +15,7 @@ dep 'core software' do
       'ctags',
       'fonts',
       'fzf',
-      'golang',
+      'go',
       'java',
       'rust',
       'shellcheck',
