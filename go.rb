@@ -1,6 +1,6 @@
 dep 'go.lang', :version  do
   requires 'curl', 'tar.apt', 'dotfiles'
-  version.default!('1.11')
+  version.default!('1.11.2')
   met? { shell? "go version | grep #{version}" }
   meet {
     tarball="go#{version}.linux-amd64.tar.gz"
@@ -8,7 +8,7 @@ dep 'go.lang', :version  do
     shell <<-HERE
       cd /tmp && curl -L -O #{url} && \
       sudo tar xzf #{tarball} -C /usr/local && \
-      sudo ln -s /usr/local/go/bin/go /usr/local/bin/go && \
+      sudo ln -sf /usr/local/go/bin/go /usr/local/bin/go && \
       rm #{tarball}
     HERE
   }
