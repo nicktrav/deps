@@ -14,10 +14,18 @@ dep 'go.lang', :version  do
   }
 end
 
+dep 'go.dir' do
+  def dir
+    '~/Development/go'.p
+  end
+  met? { dir.exists? }
+  meet { shell "mkdir #{dir}" }
+end
+
 dep 'protoc-gen-go' do
-  requires 'go.lang'
-  met? { shell 'go list ... | grep github.com/golang/protobuf/protoc-gen-go' }
-  meet { shell 'go get -u github.com/golang/protobuf/protoc-gen-go' }
+  requires 'go.lang', 'go.dir'
+  met? { login_shell 'go list github.com/golang/protobuf/protoc-gen-go' }
+  meet { login_shell 'go get -u github.com/golang/protobuf/protoc-gen-go' }
 end
 
 dep 'go' do
