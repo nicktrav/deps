@@ -105,6 +105,15 @@ dep '.paths.dotfile' do
   meet { link_dotfile name }
 end
 
+dep '.bash_local.dotfile' do
+  def name
+    'debian/.bash_local'
+  end
+  requires 'repo.dotfile'
+  met? { dotfile_exists? '.bash_local' }
+  meet { shell "ln -s #{dotfiles_dir}/#{name} ~/.bash_local" }
+end
+
 dep 'dotfiles' do
   requires [
     'repo.dotfile',
@@ -115,5 +124,6 @@ dep 'dotfiles' do
     '.functions.dotfile',
     '.inputrc.dotfile',
     '.paths.dotfile',
+    '.bash_local.dotfile',
   ]
 end
