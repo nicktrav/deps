@@ -20,19 +20,17 @@ end
 dep 'lib.boringssl', :version do
   requires 'source.boringssl', 'make.apt', 'cmake.apt', 'g++.apt', 'go.lang'
   met? { "#{dir}/lib/libssl.a".p.exists? && "#{dir}/lib/libcrypto.a".p.exists? }
-  before {
+  meet {
     cd dir do
       shell 'rm -rf build/ lib/ && mkdir build/ && mkdir lib/'
-    end
-  }
-  meet {
-    cd "#{dir}/build" do
-      shell 'DCMAKE_BUILD_TYPE=Release cmake ..'
-      shell 'make'
-    end
-    cd "#{dir}/lib" do
-      shell 'ln -s ../build/ssl/libssl.a'
-      shell 'ln -s ../build/crypto/libcrypto.a'
+      cd 'build' do
+        shell 'DCMAKE_BUILD_TYPE=Release cmake ..'
+        shell 'make'
+      end
+      cd 'lib' do
+        shell 'ln -s ../build/ssl/libssl.a'
+        shell 'ln -s ../build/crypto/libcrypto.a'
+      end
     end
   }
 end
