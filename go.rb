@@ -1,6 +1,6 @@
 dep 'go.lang', :version  do
   requires 'tar.apt'
-  version.default!('1.11.2')
+  version.default!('1.11.3')
   met? { shell? "go version | grep #{version}" }
   meet {
     # There is a circular dependency between go, curl and boringssl. To break
