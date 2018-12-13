@@ -4,7 +4,7 @@ set -euo pipefail
 
 # install Ruby
 sudo apt-get -y update
-sudo apt-get -y install ruby-full
+sudo apt-get -y install ruby git
 
 # install and unpack babuska
 rm -rf /tmp/babushka
