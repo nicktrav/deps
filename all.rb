@@ -20,7 +20,6 @@ dep 'core software' do
       'rust',
       'shellcheck',
       'tmux',
-      'openssl',
       'curl'
     ]
   }
