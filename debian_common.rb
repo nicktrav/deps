@@ -4,6 +4,12 @@ dep 'autoconf.apt', :version do
   meet { apt_install 'autoconf', version }
 end
 
+dep 'cmake.apt', :version do
+  version.default!('3.7.2-1')
+  met? { apt_installed? 'cmake', version }
+  meet { apt_install 'cmake', version }
+end
+
 dep 'dnsutils.apt', :version do
   version.default!('1:9.10.3.dfsg.P4-12.3+deb9u4')
   met? { apt_installed? 'dnsutils', version }
@@ -14,6 +20,12 @@ dep 'file.apt', :version do
   version.default!('1:5.30-1+deb9u2')
   met? { apt_installed? 'file', version }
   meet { apt_install 'file', version }
+end
+
+dep 'g++.apt', :version do
+  version.default!('4:6.3.0-4')
+  met? { apt_installed? 'g++', version }
+  meet { apt_install 'g++', version }
 end
 
 dep 'gcc.apt', :version do

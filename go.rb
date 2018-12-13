@@ -1,8 +1,12 @@
 dep 'go.lang', :version  do
-  requires 'curl', 'tar.apt', 'dotfiles'
+  requires 'tar.apt'
   version.default!('1.11.2')
   met? { shell? "go version | grep #{version}" }
   meet {
+    # There is a circular dependency between go, curl and boringssl. To break
+    # the cycle, use system curl, which we remove in the after step (below).
+    shell 'apt-get -y install curl', sudo: true
+
     tarball="go#{version}.linux-amd64.tar.gz"
     url="https://dl.google.com/go/#{tarball}"
     shell <<-HERE
@@ -11,6 +15,9 @@ dep 'go.lang', :version  do
       sudo ln -sf /usr/local/go/bin/go /usr/local/bin/go && \
       rm #{tarball}
     HERE
+  }
+  after {
+    shell 'apt-get remove -y curl', sudo: true
   }
 end
 

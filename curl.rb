@@ -1,5 +1,5 @@
 dep 'curl', :version do
-  requires 'git.apt', 'libtoolize.apt', 'autoconf.apt', 'software-properties-common.apt', 'openssl'
+  requires 'git.apt', 'libtoolize.apt', 'autoconf.apt', 'software-properties-common.apt', 'lib.boringssl'
   version.default!('7.61.1')
   met? { shell? "curl --version | grep #{version}" }
   meet {
@@ -9,7 +9,7 @@ dep 'curl', :version do
       cd 'curl' do
         shell "git checkout curl-#{version.to_s.gsub('.', '_')}"
         shell './buildconf'
-        shell 'LDFLAGS="-Wl,-rpath,/usr/local/ssl/lib -Wl,-rpath,/usr/local/lib" ./configure --with-ssl=/usr/local/ssl'
+        shell 'LIBS=-lpthread LDFLAGS="-static" ./configure --disable-shared --enable-static --with-ssl=$HOME/Development/boringssl'
         shell 'make'
         shell 'make install', sudo: true
       end
