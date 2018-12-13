@@ -1,15 +1,12 @@
 dep 'ripgrep', :version do
-  requires 'cargo', 'git.local', 
-  version.default!('0.8.1')
-  met? { in_path? "rg >= #{version}" }
+  requires 'curl'
+  version.default!('0.10.0')
+  met? { shell? "rg --version | grep #{version}" }
   meet {
-    shell <<-HERE
-      rm -rf /tmp/ripgrep && \
-      git clone https://github.com/BurntSushi/ripgrep.git /tmp/ripgrep && \
-      cd /tmp/ripgrep && git checkout #{version} && \
-      cargo build --release && \
-      sudo cp ./target/release/rg /usr/local/bin/ && \
-      rm -rf /tmp/ripgrep
-    HERE
+    cd '/tmp' do
+      shell "curl -L -o rg.deb https://github.com/BurntSushi/ripgrep/releases/download/#{version}/ripgrep_#{version}_amd64.deb"
+      shell 'apt install /tmp/rg.deb', sudo: true
+      shell 'rm rg.deb'
+    end
   }
 end
