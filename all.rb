@@ -13,6 +13,7 @@ dep 'core software' do
       'debian-common',
       'git.apt',
       'ctags',
+      'certigo',
       'fonts',
       'fzf',
       'go',
