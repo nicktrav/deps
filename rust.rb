@@ -30,15 +30,15 @@ end
 
 dep 'rustc.rust', :version do
   requires 'rustup.rust'
-  version.default!('1.29.0')
+  version.default!('1.31.0')
   met? { shell? "#{rustc} --version | grep #{version}" }
   meet { shell "#{rustup} update #{version} && #{rustup} default #{version}" }
 end
 
 dep 'rustfmt.rust' do
   requires 'rustup.rust'
-  met? { shell? "#{rustup} component list | grep rustfmt-preview" }
-  meet { shell "#{rustup} component add rustfmt-preview" }
+  met? { shell? "#{rustup} component list | grep rustfmt" }
+  meet { shell "#{rustup} component add rustfmt" }
 end
 
 dep 'rust-src.rust' do
@@ -49,9 +49,9 @@ end
 
 dep 'rusty-tags.rust', :version do
   requires 'rustup.rust'
-  version.default!('3.0.0')
+  version.default!('3.2.0')
   met? { shell? "#{cargo} install --list | grep 'rusty-tags v#{version}'" }
-  meet { shell "#{cargo} install --version #{version} rusty-tags" }
+  meet { shell "#{cargo} install --force --version #{version} rusty-tags" }
 end
 
 dep 'rust' do

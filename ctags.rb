@@ -1,6 +1,6 @@
 dep 'ctags', :version  do
   requires 'git.apt', 'make.apt', 'autoconf.apt', 'pkg-config.apt'
-  version.default!('836df9df')
+  version.default!('64f7d619')
   met? { in_path? "ctags >= #{version}" }
   meet {
     shell <<-HERE

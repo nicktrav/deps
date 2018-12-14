@@ -1,6 +1,6 @@
 dep 'shellcheck', :version do
   requires 'curl', 'tar.apt'
-  version.default!('0.4.7')
+  version.default!('0.6.0')
   met? { shell? "shellcheck --version | grep #{version}" }
   meet do
     tarball="shellcheck-v#{version}.linux.x86_64.tar.xz"
