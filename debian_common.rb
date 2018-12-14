@@ -4,6 +4,12 @@ dep 'autoconf.apt', :version do
   meet { apt_install 'autoconf', version }
 end
 
+dep 'automake.apt', :version do
+  version.default!('1:1.15-6')
+  met? { apt_installed? 'automake', version }
+  meet { apt_install 'automake', version }
+end
+
 dep 'cmake.apt', :version do
   version.default!('3.7.2-1')
   met? { apt_installed? 'cmake', version }
