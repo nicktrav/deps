@@ -1,5 +1,5 @@
 dep 'fzf', :version  do
-  requires 'go.lang', 'git.apt', 'make.apt'
+  requires 'go.lang', 'personal:git', 'make.apt'
   version.default!('0.17.4')
   met? { in_path? "fzf >= #{version}" }
   meet {

@@ -1,5 +1,5 @@
 dep 'tmux.bin.local', :version  do
-  requires 'git.apt'
+  requires 'personal:git'
   version.default!('2.8')
   met? { shell? "tmux -V | grep #{version}" }
   before {
