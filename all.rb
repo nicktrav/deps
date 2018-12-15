@@ -8,10 +8,11 @@ dep 'all' do
 end
 
 dep 'core software' do
+  requires 'personal:git'
   requires {
     on :debian, [
+      'debian-backports',
       'debian-common',
-      'git.apt',
       'ctags',
       'certigo',
       'fonts',

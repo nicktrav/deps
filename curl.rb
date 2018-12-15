@@ -1,6 +1,6 @@
 dep 'curl', :version do
   requires 'libtoolize.apt', 'autoconf.apt', 'software-properties-common.apt'
-  requires 'git.apt', 'lib.boringssl', 'lib.nghttp2'
+  requires 'personal:git', 'lib.boringssl', 'lib.nghttp2'
   version.default!('7.61.1')
   met? { shell? "curl --version | grep #{version}" }
   meet {

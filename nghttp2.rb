@@ -5,7 +5,7 @@ meta :nghttp2 do
 end
 
 dep 'source.nghttp2' do
-  requires 'git.apt'
+  requires 'personal:git'
   met? { dir.p.exists? }
   meet {
     shell "mkdir -p #{dir}"

@@ -20,14 +20,15 @@ meta :dotfile do
 end
 
 dep 'repo.dotfile', :version  do
-  requires 'git.apt', 'development dir'
+  requires 'personal:git', 'development dir'
   version.default!('master')
   met? { dotfiles_dir.exists? }
   meet {
     shell <<-HERE
       git clone \
         --branch #{version} \
-        --single-branch https://github.com/nicktrav/dotfiles.git \
+        --depth 1 \
+        https://github.com/nicktrav/dotfiles.git \
         #{dotfiles_dir}
     HERE
   }

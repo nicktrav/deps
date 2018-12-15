@@ -1,9 +1,9 @@
 meta :apt do
   def apt_installed?(package, version)
-    shell? "apt-cache policy #{package} | grep 'Installed: #{version}'"
+    shell? "dpkg -s #{package} | grep 'Version: #{version}'"
   end
 
-  def apt_install(package, version)
-    shell "apt-get -y install #{package}=#{version}", sudo: true
+  def apt_install(package, version, channel = 'stretch')
+    shell "apt-get -y -t #{channel} install #{package}=#{version}", sudo: true
   end
 end

@@ -6,7 +6,7 @@ end
 
 dep 'source.boringssl', :version do
   version.default!('2d98d49cf') # taken from latest chromium-stable
-  requires 'git.apt'
+  requires 'personal:git'
   met? { dir.p.exists? }
   meet {
     shell "mkdir -p #{dir}"
