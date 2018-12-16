@@ -1,9 +1,10 @@
 dep 'all' do
   # TODO(nickt): System update
   requires [
+    'core software',
+    'deps-dir',
     'development dir',
     'dotfiles',
-    'core software',
   ]
 end
 
