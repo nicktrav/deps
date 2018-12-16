@@ -1,5 +1,6 @@
 dep 'all' do
   # TODO(nickt): System update
+  requires 'layout.fhs'.with('/usr/local')
   requires [
     'core software',
     'deps-dir',
@@ -9,22 +10,24 @@ dep 'all' do
 end
 
 dep 'core software' do
-  requires 'personal:git'
-  requires 'rusty-tags.rust'
+  requires [
+      'ctags',
+      'certigo',
+      'curl',
+      'fzf',
+      'go',
+      'java',
+      'personal:git',
+      'rust',
+      'rusty-tags.rust',
+      'shellcheck',
+      'tmux',
+  ]
   requires {
     on :debian, [
       'debian-backports',
       'debian-common',
-      'ctags',
-      'certigo',
       'fonts',
-      'fzf',
-      'go',
-      'java',
-      'rust',
-      'shellcheck',
-      'tmux',
-      'curl'
     ]
   }
 end
