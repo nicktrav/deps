@@ -18,7 +18,17 @@ end
 dep 'lib.nghttp2', :version do
   version.default!('v1.35.0')
   requires 'source.nghttp2', 'automake.bin', 'autoconf.bin', 'pkg-config.bin', 'make.bin'
-  met? { '/usr/local/lib/libnghttp2.so'.p.exists? }
+  on :debian do
+    requires 'libtoolize.bin'
+  end
+
+  on :osx do
+    met? { '/usr/local/lib/libnghttp2.dylib'.p.exists? }
+  end
+  on :debian do
+    met? { '/usr/local/lib/libnghttp2.so'.p.exists? }
+  end
+
   meet {
     cd dir do
       shell "git checkout #{version}"
@@ -27,7 +37,14 @@ dep 'lib.nghttp2', :version do
       shell 'autoconf'
       shell './configure'
       shell 'make'
-      shell 'make install', sudo: true
+
+      # TODO(nickt): change all Debian installs to not install as root
+      on :osx do
+        shell 'make install'
+      end
+      on :debian do
+        shell 'make install', sudo: true
+      end
     end
   }
 end
