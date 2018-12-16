@@ -1,7 +1,7 @@
 dep 'maven', :version  do
-  requires 'curl'
+  requires 'curl', 'dotfiles', 'java'
   version.default!('3.6.0')
-  met? { shell? "mvn --version | grep #{version}" }
+  met? { login_shell "mvn --version | grep #{version}" }
   meet {
     url="https://archive.apache.org/dist/maven/maven-3/#{version}/binaries/apache-maven-#{version}-bin.tar.gz"
     tarball='maven.tar.gz'

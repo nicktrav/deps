@@ -17,6 +17,7 @@ dep 'core software' do
       'fzf',
       'go',
       'java',
+      'maven',
       'personal:git',
       'ripgrep',
       'rust',
