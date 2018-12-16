@@ -1,6 +1,14 @@
-dep 'go.lang', :version  do
+dep 'go.dir' do
+  requires 'development dir'
+  def dir
+    '~/Development/go'.p
+  end
+  met? { dir.exists? }
+  meet { shell "mkdir #{dir}" }
+end
+
+dep 'go.debian', :version do
   requires 'tar.bin'
-  version.default!('1.11.3')
   met? { shell? "go version | grep #{version}" }
   meet {
     # There is a circular dependency between go, curl and boringssl. To break
@@ -21,20 +29,29 @@ dep 'go.lang', :version  do
   }
 end
 
-dep 'go.dir' do
-  def dir
-    '~/Development/go'.p
-  end
-  met? { dir.exists? }
-  meet { shell "mkdir #{dir}" }
+dep 'go.osx.bin', :version do
+  met? { shell? "go version | grep #{version}" }
+  installs {
+    via :brew, 'go'
+  }
 end
 
 dep 'protoc-gen-go' do
-  requires 'go.lang', 'go.dir'
+  requires 'go.lang', 'go.dir', 'dotfiles'
   met? { login_shell 'go list github.com/golang/protobuf/protoc-gen-go' }
   meet { login_shell 'go get -u github.com/golang/protobuf/protoc-gen-go' }
 end
 
+dep 'go.lang', :version do
+  version.default!('1.11.4')
+  on :osx do
+    requires 'go.osx.bin'.with(version)
+  end
+  on :debian do
+    requires 'go.debian'.with(version)
+  end
+end
+
 dep 'go' do
-  requires 'go.lang', 'protoc-gen-go'
+  requires 'go.dir', 'go.lang', 'protoc-gen-go'
 end
