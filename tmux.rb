@@ -1,19 +1,12 @@
-dep 'tmux.bin.local', :version  do
-  version.default!('2.8')
-  requires 'personal:git'
-  requires 'automake.bin', 'autoconf.bin', 'curses.lib', 'g++.bin', 'libevent.lib', 'make.bin', 'pkg-config.bin'
+dep 'tmux.debian.apt', :version do
+  requires 'debian-backports'
+  met? { apt_installed? 'tmux', version }
+  meet { apt_install 'tmux', version, 'stretch-backports' }
+end
+
+dep 'tmux.osx', :version do
   met? { shell? "tmux -V | grep #{version}" }
-  meet {
-    shell <<-HERE
-      cd /tmp && \
-      git clone https://github.com/tmux/tmux.git && \
-      cd tmux && \
-      git fetch -t && git checkout #{version} && \
-      sh autogen.sh && \
-      autoreconf -i --force && ./configure && make && \
-      sudo make install
-    HERE
-  }
+  meet { shell 'brew install tmux' }
 end
 
 dep 'tmux.conf.dotfile' do
@@ -39,5 +32,13 @@ dep 'tmux.dotfile' do
 end
 
 dep 'tmux' do
-  requires 'tmux.bin.local', 'tmux.dotfile'
+  on :debian do
+    requires 'tmux.debian.apt'.with('2.8-2~bpo9+1')
+  end
+
+  on :osx do
+    requires 'tmux.osx'.with('2.8')
+  end
+
+  requires 'tmux.dotfile'
 end
