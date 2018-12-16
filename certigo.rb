@@ -1,5 +1,5 @@
 dep 'source.certigo'  do
-  requires 'go.lang'
+  requires 'go'
   met? { login_shell 'go list github.com/square/certigo' }
   meet { login_shell 'go get github.com/square/certigo' }
 end
