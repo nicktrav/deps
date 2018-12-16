@@ -19,6 +19,7 @@ dep 'core software' do
       'java',
       'maven',
       'personal:git',
+      'protoc',
       'ripgrep',
       'rust',
       'rusty-tags.rust',
