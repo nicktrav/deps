@@ -18,6 +18,7 @@ dep 'core software' do
       'go',
       'java',
       'personal:git',
+      'ripgrep',
       'rust',
       'rusty-tags.rust',
       'shellcheck',
