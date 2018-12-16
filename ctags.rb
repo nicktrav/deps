@@ -1,17 +1,23 @@
 dep 'ctags', :version  do
-  requires 'personal:git', 'make.bin', 'autoconf.bin', 'pkg-config.bin'
   version.default!('64f7d619')
+  requires 'autoconf.bin', 'g++.bin', 'make.bin', 'personal:git', 'pkg-config.bin'
   met? { in_path? "ctags >= #{version}" }
+  before {
+    shell 'rm -rf /tmp/ctags'
+  }
   meet {
-    shell <<-HERE
-      rm -rf /tmp/ctags && \
-      git clone https://github.com/universal-ctags/ctags.git /tmp/ctags && \
-      cd /tmp/ctags && \
-      git checkout #{version} && \
-      ./autogen.sh && \
-      ./configure && \
-      make && sudo make install && \
-      rm -rf /tmp/ctags
-    HERE
+    shell 'mkdir /tmp/ctags'
+    cd '/tmp/ctags' do
+      shell 'git clone https://github.com/universal-ctags/ctags.git .'
+      shell "git checkout #{version}"
+      shell './autogen.sh'
+      shell './configure'
+      shell 'make'
+      # TODO(nickt): update this to not use sudo
+      shell 'make install', sudo: true
+    end
+  }
+  after {
+    shell 'rm -rf /tmp/ctags'
   }
 end
