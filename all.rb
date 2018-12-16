@@ -10,6 +10,7 @@ end
 
 dep 'core software' do
   requires 'personal:git'
+  requires 'rusty-tags.rust'
   requires {
     on :debian, [
       'debian-backports',

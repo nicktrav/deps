@@ -110,7 +110,7 @@ dep '.bash_local.dotfile' do
   def name
     'debian/.bash_local'
   end
-  requires 'repo.dotfile', 'rustc.rust'
+  requires 'repo.dotfile'
   met? { dotfile_exists? '.bash_local' }
   meet { shell "ln -s #{dotfiles_dir}/#{name} ~/.bash_local" }
 end

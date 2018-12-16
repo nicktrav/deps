@@ -6,7 +6,7 @@ end
 
 dep 'binary.jabba.bash', :version do
   version.default! '0.11.0'
-  requires 'source.jabba.bash', 'development dir', 'git', 'go'
+  requires 'source.jabba.bash', 'development dir', 'git', 'go', 'curl'
   met? { login_shell "jabba --version | grep #{version}" }
   meet {
     cd "~/Development/go/src/github.com/shyiko/jabba".p do
