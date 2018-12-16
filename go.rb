@@ -1,5 +1,5 @@
 dep 'go.lang', :version  do
-  requires 'tar.apt'
+  requires 'tar.bin'
   version.default!('1.11.3')
   met? { shell? "go version | grep #{version}" }
   meet {

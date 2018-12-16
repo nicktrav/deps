@@ -18,7 +18,7 @@ dep 'source.boringssl', :version do
 end
 
 dep 'lib.boringssl', :version do
-  requires 'source.boringssl', 'make.apt', 'cmake.apt', 'g++.apt', 'go.lang'
+  requires 'source.boringssl', 'make.bin', 'cmake.bin', 'g++.bin', 'go.lang'
   met? { "#{dir}/lib/libssl.a".p.exists? && "#{dir}/lib/libcrypto.a".p.exists? }
   meet {
     cd dir do
