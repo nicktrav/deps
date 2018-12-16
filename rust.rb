@@ -13,7 +13,7 @@ meta :rust do
 end
 
 dep 'rustup.rust' do
-  requires 'curl'
+  requires 'curl', 'dotfiles'
   met? { shell? "#{rustup} --version" }
   meet {
     shell <<-HERE
@@ -23,13 +23,13 @@ dep 'rustup.rust' do
 end
 
 dep 'cargo.rust', :version do
-  requires 'rustup.rust'
+  requires 'rustup.rust', 'dotfiles'
   met? { shell? "rustup component list | grep cargo" }
   meet { shell "rustup component add cago" }
 end
 
 dep 'rustc.rust', :version do
-  requires 'rustup.rust'
+  requires 'rustup.rust', 'dotfiles'
   version.default!('1.31.0')
   met? { shell? "#{rustc} --version | grep #{version}" }
   meet { shell "#{rustup} update #{version} && #{rustup} default #{version}" }
@@ -42,18 +42,16 @@ dep 'rustfmt.rust' do
 end
 
 dep 'rust-src.rust' do
-  requires 'rustup.rust'
+  requires 'rustup.rust', 'dotfiles'
   met? { shell? "#{rustup} component list | grep rust-src" }
   meet { shell "#{rustup} component add rust-src" }
 end
 
-dep 'rusty-tags.rust', :version do
-  requires 'rustup.rust'
-  version.default!('3.2.0')
-  met? { shell? "#{cargo} install --list | grep 'rusty-tags v#{version}'" }
-  meet { shell "#{cargo} install --force --version #{version} rusty-tags" }
-end
-
 dep 'rust' do
-  requires 'rustup.rust', 'rustc.rust', 'rustfmt.rust', 'rust-src.rust', 'rusty-tags.rust'
+  requires [
+    'rustup.rust',
+    'rustc.rust',
+    'rustfmt.rust',
+    'rust-src.rust',
+  ]
 end
