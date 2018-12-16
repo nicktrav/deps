@@ -1,7 +1,16 @@
-dep 'ctags', :version  do
-  version.default!('64f7d619')
+dep 'ctags.osx', :version do
+  version.default!('5.8')
+  met? { shell? "ctags --version | grep #{version}" }
+  meet {
+    shell 'brew install --HEAD universal-ctags/universal-ctags/universal-ctags'
+  }
+end
+
+dep 'ctags.debian', :version  do
+  version.default!('9d32534c')
   requires 'autoconf.bin', 'g++.bin', 'make.bin', 'personal:git', 'pkg-config.bin'
-  met? { in_path? "ctags >= #{version}" }
+  #met? { in_path? "ctags >= #{version}" }
+  met? { shell? "ctags --version | grep #{version}" }
   before {
     shell 'rm -rf /tmp/ctags'
   }
@@ -20,4 +29,13 @@ dep 'ctags', :version  do
   after {
     shell 'rm -rf /tmp/ctags'
   }
+end
+
+dep 'ctags' do
+  on :osx do
+    requires 'ctags.osx'
+  end
+  on :debian do
+    requires 'ctags.debian'
+  end
 end
