@@ -1,18 +1,8 @@
 dep 'tmux.bin.local', :version  do
-  requires 'personal:git'
   version.default!('2.8')
+  requires 'personal:git'
+  requires 'automake.bin', 'autoconf.bin', 'curses.lib', 'g++.bin', 'libevent.lib', 'make.bin', 'pkg-config.bin'
   met? { shell? "tmux -V | grep #{version}" }
-  before {
-    shell <<-HERE
-      sudo apt-get -y install \
-        autogen \
-        automake \
-        libevent-dev \
-        libncurses5-dev \
-        pkg-config && \
-      rm -rf /tmp/tmux
-    HERE
-  }
   meet {
     shell <<-HERE
       cd /tmp && \

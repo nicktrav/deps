@@ -10,7 +10,6 @@ end
 
 dep 'git.osx.src', :version do
   version.default!('2.20.0')
-  requires 'layout.fhs'.with('/usr/local')
   met? { in_path? "git == #{version}" }
   source "https://github.com/git/git/archive/v#{version}.zip"
 end

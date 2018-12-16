@@ -17,7 +17,7 @@ end
 
 dep 'lib.nghttp2', :version do
   version.default!('v1.35.0')
-  requires 'source.nghttp2', 'automake.apt', 'autoconf.apt', 'pkg-config.apt'
+  requires 'source.nghttp2', 'automake.bin', 'autoconf.bin', 'pkg-config.bin', 'make.bin'
   met? { '/usr/local/lib/libnghttp2.so'.p.exists? }
   meet {
     cd dir do
