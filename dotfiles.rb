@@ -17,6 +17,10 @@ meta :dotfile do
     raise "dotfile must start with a ." unless filename.start_with? '.'
     shell "ln -s #{dotfiles_file(filename)} ~/#{filename}"
   end
+
+  def version_file
+    "~/.dotfiles_version"
+  end
 end
 
 dep 'repo.dotfile', :version  do
@@ -34,97 +38,25 @@ dep 'repo.dotfile', :version  do
   }
 end
 
-dep '.aliases.dotfile' do
-  def name
-    '.aliases'
-  end
+dep 'version.dotfile' do
   requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.bash_profile.dotfile' do
-  def name
-    '.bash_profile'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.bash_prompt.dotfile' do
-  def name
-    '.bash_prompt'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.docker_functions.dotfile' do
-  def name
-    '.docker_functions'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.functions.dotfile' do
-  def name
-    '.functions'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.gitconfig.dotfile' do
-  def name
-    '.gitconfig'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.inputrc.dotfile' do
-  def name
-    '.inputrc'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.paths.dotfile' do
-  def name
-    '.paths'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? name }
-  meet { link_dotfile name }
-end
-
-dep '.bash_local.dotfile' do
-  def name
-    'debian/.bash_local'
-  end
-  requires 'repo.dotfile'
-  met? { dotfile_exists? '.bash_local' }
-  meet { shell "ln -s #{dotfiles_dir}/#{name} ~/.bash_local" }
+  met? {
+    login_shell "[[ $(cat #{version_file}) == $(cd #{dotfiles_dir} && git rev-parse HEAD) ]]"
+  }
+  meet {
+    cd dotfiles_dir do
+      on :osx do
+        shell './install.sh macos'
+      end
+      on :debian do
+        shell './install.sh debian'
+      end
+      shell "git rev-parse HEAD > #{version_file}"
+    end
+  }
 end
 
 dep 'dotfiles' do
-  requires [
-    'repo.dotfile',
-    '.aliases.dotfile',
-    '.bash_profile.dotfile',
-    '.bash_prompt.dotfile',
-    '.docker_functions.dotfile',
-    '.functions.dotfile',
-    '.inputrc.dotfile',
-    '.paths.dotfile',
-    '.bash_local.dotfile',
-  ]
+  requires 'repo.dotfile', 'version.dotfile'
+  requires 'tmux'
 end
