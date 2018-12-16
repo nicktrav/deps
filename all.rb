@@ -25,6 +25,7 @@ dep 'core software' do
       'rusty-tags.rust',
       'shellcheck',
       'tmux',
+      'vim',
   ]
   requires {
     on :debian, [
