@@ -1,6 +1,5 @@
-dep 'ripgrep', :version do
+dep 'ripgrep.debian', :version do
   requires 'curl'
-  version.default!('0.10.0')
   met? { shell? "rg --version | grep #{version}" }
   meet {
     cd '/tmp' do
@@ -9,4 +8,21 @@ dep 'ripgrep', :version do
       shell 'rm rg.deb'
     end
   }
+end
+
+dep 'ripgrep.osx', :version do
+  met? { in_path? "rg >= #{version}" }
+  meet {
+    shell 'brew install rg'
+  }
+end
+
+dep 'ripgrep', :version do
+  version.default!('0.10.0')
+  on :osx do
+    requires 'ripgrep.osx'.with(version)
+  end
+  on :debian do
+    requires 'ripgrep.debian'.with(version)
+  end
 end
