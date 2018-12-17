@@ -4,6 +4,6 @@ dep 'debian-common' do
   requires 'host.bin'
   requires 'htop.bin'
   requires 'make.bin'
-  requires 'net-tools.lib'
+  requires 'net-tools'
   requires 'tar.bin'
 end
