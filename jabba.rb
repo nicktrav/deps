@@ -10,10 +10,7 @@ dep 'binary.jabba.bash', :version do
   met? { login_shell "jabba --version | grep #{version}" }
   meet {
     cd "~/Development/go/src/github.com/shyiko/jabba".p do
-      shell 'git checkout master'
-      shell 'git fetch -t'
-      shell "git checkout #{version}"
-      shell 'bash install.sh'
+      shell "JABBA_VERSION=#{version} bash install.sh"
     end
   }
 end
