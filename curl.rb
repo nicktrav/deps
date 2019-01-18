@@ -1,19 +1,21 @@
 dep 'curl', :version do
   version.default!('7.61.1')
 
-  requires 'personal:git', 'lib.boringssl', 'lib.nghttp2'
+  requires 'lib.boringssl', 'lib.nghttp2'
   requires 'autoconf.bin', 'make.bin'
   on :debian do
     requires 'libtoolize.bin'
   end
 
-  met? { shell? "curl --version | grep #{version}" }
+  met? { shell? "curl --version | grep -E '^curl #{version}'" }
   meet {
     cd '/tmp' do
-      shell 'rm -rf curl'
-      shell 'git clone https://github.com/curl/curl.git'
-      cd 'curl' do
-        shell "git checkout curl-#{version.to_s.gsub('.', '_')}"
+      # uses system curl, which we remove later
+      shell 'apt-get install -y curl', sudo: true
+      shell "curl -L -o curl.tar.gz https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.gz"
+      shell 'tar xzf curl.tar.gz'
+
+      cd "curl-#{version}" do
         shell './buildconf'
 
         on :debian do
@@ -44,7 +46,7 @@ dep 'curl', :version do
     end
   }
   after do
-    shell 'rm -rf /tmp/curl'
+    shell 'rm -rf /tmp/curl*'
     on :debian do
       shell 'apt-get remove -y curl', sudo: true
     end
