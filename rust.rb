@@ -30,7 +30,7 @@ end
 
 dep 'rustc.rust', :version do
   requires 'rustup.rust', 'dotfiles'
-  version.default!('1.31.1')
+  version.default!('1.32.0')
   met? { shell? "#{rustc} --version | grep #{version}" }
   meet { shell "#{rustup} update #{version} && #{rustup} default #{version}" }
 end
