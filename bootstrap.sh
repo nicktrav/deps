@@ -17,6 +17,7 @@ rm -rf ~/.babushka/deps
 mkdir -p ~/.babushka && cd ~/.babushka && git clone https://github.com/nicktrav/deps.git
 
 # apply babushka patches
-patch /usr/local/babushka/deps/pkg_managers.rb babushka.patch
+# TODO(nickt): Remove this if / when the patch lands upstream
+sudo patch /usr/local/babushka/deps/pkg_managers.rb babushka.patch
 
 babushka --debug all
