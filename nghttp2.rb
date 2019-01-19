@@ -4,19 +4,24 @@ meta :nghttp2 do
   end
 end
 
-dep 'source.nghttp2' do
-  requires 'personal:git'
+dep 'source.nghttp2', :version do
+  version.default!('1.35.0')
   met? { dir.p.exists? }
   meet {
-    shell "mkdir -p #{dir}"
-    cd dir do
-      shell 'git clone https://github.com/tatsuhiro-t/nghttp2.git .'
+    # uses system curl, which we remove later
+    shell 'apt-get install -y curl', sudo: true
+    cd dir, create: true do
+      shell "curl -L -o nghttp2.tar.gz https://github.com/nghttp2/nghttp2/archive/v#{version}.tar.gz"
+      shell 'tar xzf nghttp2.tar.gz -C ./ --strip 1'
+      shell 'rm nghttp2.tar.gz'
     end
+  }
+  after {
+    shell 'apt-get remove -y curl', sudo: true
   }
 end
 
-dep 'lib.nghttp2', :version do
-  version.default!('v1.35.0')
+dep 'lib.nghttp2' do
   requires 'source.nghttp2', 'automake.bin', 'autoconf.bin', 'pkg-config.bin', 'make.bin'
   on :debian do
     requires 'libtoolize.bin'
@@ -31,7 +36,6 @@ dep 'lib.nghttp2', :version do
 
   meet {
     cd dir do
-      shell "git checkout #{version}"
       shell 'autoreconf -i'
       shell 'automake'
       shell 'autoconf'
