@@ -1,7 +1,7 @@
-dep 'tmux.debian.apt', :version do
+dep 'tmux.debian.backports', :version do
   requires 'debian-backports'
-  met? { apt_installed? 'tmux', version }
-  meet { apt_install 'tmux', version, 'stretch-backports' }
+  met? { in_path? "tmux >= #{version}" }
+  meet { apt_install 'tmux' }
 end
 
 dep 'tmux.osx', :version do
@@ -33,7 +33,7 @@ end
 
 dep 'tmux' do
   on :debian do
-    requires 'tmux.debian.apt'.with('2.8-2~bpo9+1')
+    requires 'tmux.debian.backports'.with('2.8')
   end
 
   on :osx do
