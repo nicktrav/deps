@@ -43,7 +43,7 @@ dep 'protoc-gen-go' do
 end
 
 dep 'go.lang', :version do
-  version.default!('1.11.4')
+  version.default!('1.12.1')
   on :osx do
     requires 'go.osx.bin'.with(version)
   end
