@@ -7,3 +7,10 @@ dep 'debian-backports'  do
     shell 'apt-get update', sudo: true
   }
 end
+
+meta :backports do
+  def apt_install(package, version = nil)
+    package_str = version.nil? ? package : "#{package}=#{version}"
+    shell "apt-get -y -t stretch-backports install #{package_str}", sudo: true
+  end
+end
