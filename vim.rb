@@ -1,6 +1,6 @@
 dep 'vim.debian.apt', :version do
   met? { apt_installed? 'vim', version }
-  meet { apt_install 'vim', version }
+  meet { apt_install_channel 'vim', 'stable' }
 end
 
 dep 'vim.osx', :version do
@@ -10,7 +10,7 @@ end
 
 dep 'vim' do
   on :debian do
-    requires 'vim.debian.apt'.with('2:8.0.0197-4+deb9u1')
+    requires 'vim.debian.apt'.with('8.0')
   end
   on :osx do
     requires 'vim.osx'.with('8.1')

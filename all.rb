@@ -30,6 +30,7 @@ dep 'core software' do
   requires {
     on :debian, [
       'debian-backports',
+      'debian-buster',
       'debian-common',
       'fonts',
     ]
