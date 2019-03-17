@@ -4,7 +4,7 @@ dep 'git' do
   end
 
   on :debian do
-    requires 'personal:git.debian.backports'
+    requires 'personal:git.debian.apt'
   end
 end
 
@@ -14,9 +14,9 @@ dep 'git.osx.src', :version do
   source "https://github.com/git/git/archive/v#{version}.zip"
 end
 
-dep 'git.debian.backports', :version do
+dep 'git.debian.apt', :version do
   version.default!('2.20.1')
   requires 'debian-backports'
   met? { in_path? "git >= #{version}" }
-  meet { apt_install 'git' }
+  meet { apt_install_channel 'git', 'stretch-backports' }
 end
