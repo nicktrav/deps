@@ -37,6 +37,7 @@ dep 'go.lang', :version do
 
     tarball="go#{version}.#{platform}.tar.gz"
     url="https://dl.google.com/go/#{tarball}"
+    shell 'rm -rf /usr/local/go', sudo: true
     shell <<-HERE
       cd /tmp && curl -L -O #{url} && \
       sudo tar xzf #{tarball} -C /usr/local && \

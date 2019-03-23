@@ -5,20 +5,14 @@ meta :boringssl do
 end
 
 dep 'source.boringssl', :version do
-  version.default!('2d98d49cf712ca7dc6f4b23b9c5f5542385d8dbe') # taken from latest chromium-stable
+  version.default!('8e8f250422663106d478f6927beefba289a95b37') # taken from latest chromium-stable
   met? { dir.p.exists? }
   meet {
-    # uses system curl, which we remove later
-    shell 'apt-get install -y curl', sudo: true
     shell "mkdir -p #{dir}"
     cd dir do
-      shell "curl -L -o boringssl.tar.gz https://boringssl.googlesource.com/boringssl/+archive/#{version}.tar.gz"
-      shell 'tar xzf boringssl.tar.gz -C ./'
-      shell 'rm boringssl.tar.gz'
+      shell 'git clone https://boringssl.googlesource.com/boringssl .'
+      shell "git checkout #{version}"
     end
-  }
-  after {
-    shell 'apt-get remove -y curl', sudo: true
   }
 end
 
