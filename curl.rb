@@ -11,7 +11,10 @@ dep 'curl', :version do
   meet {
     cd '/tmp' do
       # uses system curl, which we remove later
-      shell 'apt-get install -y curl', sudo: true
+      on :debian do
+        shell 'apt-get install -y curl', sudo: true
+      end
+
       shell "curl -L -o curl.tar.gz https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.gz"
       shell 'tar xzf curl.tar.gz'
 

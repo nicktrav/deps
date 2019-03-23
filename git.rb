@@ -1,6 +1,6 @@
 dep 'git' do
   on :osx do
-    requires 'personal:git.osx.src'
+    requires 'personal:git.osx.bin'
   end
 
   on :debian do
@@ -8,10 +8,12 @@ dep 'git' do
   end
 end
 
-dep 'git.osx.src', :version do
+dep 'git.osx.bin', :version do
   version.default!('2.20.0')
-  met? { in_path? "git == #{version}" }
-  source "https://github.com/git/git/archive/v#{version}.zip"
+  provides "git >= #{version}"
+  installs {
+    via :brew, 'git'
+  }
 end
 
 dep 'git.debian.apt', :version do
