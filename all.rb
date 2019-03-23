@@ -11,6 +11,7 @@ end
 
 dep 'core software' do
   requires [
+      'alacritty',
       'ctags',
       'certigo',
       'curl',
