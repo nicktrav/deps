@@ -1,4 +1,14 @@
 dep 'shellcheck', :version do
+  on :debian do
+    requires 'shellcheck.debian'
+  end
+
+  on :osx do
+    requires 'shellcheck.osx.bin'
+  end
+end
+
+dep 'shellcheck.debian', :version do
   requires 'curl', 'tar.bin'
   version.default!('0.6.0')
   met? { shell? "shellcheck --version | grep #{version}" }
@@ -14,4 +24,11 @@ dep 'shellcheck', :version do
       rm -rf #{tarball} shellcheck*
     HERE
   end
+end
+
+dep 'shellcheck.osx.bin' do
+  provides "shellcheck"
+  installs {
+    via :brew, 'shellcheck'
+  }
 end
