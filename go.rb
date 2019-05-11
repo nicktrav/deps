@@ -14,7 +14,7 @@ dep 'protoc-gen-go' do
 end
 
 dep 'go.lang', :version do
-  version.default!('1.12.1')
+  version.default!('1.12.5')
   requires 'tar.bin'
   met? { shell? "go version | grep #{version}" }
   meet {
