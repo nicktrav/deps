@@ -1,5 +1,5 @@
 dep 'openjdk.bash', :version do
-  version.default! 'openjdk@1.11.0-2'
+  version.default! 'openjdk@1.12.0-1'
   requires 'jabba', 'dotfiles'
   met? { login_shell "jabba current | grep #{version}" }
   meet {
