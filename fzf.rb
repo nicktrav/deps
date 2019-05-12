@@ -1,6 +1,6 @@
 dep 'fzf', :version  do
   requires 'go.lang', 'personal:git', 'make.bin'
-  version.default!('0.17.4')
+  version.default!('0.18.0')
   met? { in_path? "fzf >= #{version}" }
   meet {
     shell <<-HERE
