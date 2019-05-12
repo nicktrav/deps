@@ -6,12 +6,12 @@ dep 'alacritty.osx' do
 end
 
 dep 'alacritty.debian.apt', :version do
-  version.default!('0.2.9')
+  version.default!('0.3.2')
   requires 'libexpat', 'libfontconfig', 'libfreetype', 'libgcc', 'libpng', 'zlib'
   met? { apt_installed? 'alacritty', version }
   meet {
     cd '/tmp' do
-      shell "curl -o alacritty.deb -L https://github.com/jwilm/alacritty/releases/download/v#{version}/Alacritty-v#{version}_amd64.deb"
+      shell "curl -o alacritty.deb -L https://github.com/jwilm/alacritty/releases/download/v#{version}/Alacritty-v#{version}-ubuntu_18_04_amd64.deb"
       shell 'dpkg -i alacritty.deb', sudo: true
     end
   }
