@@ -18,7 +18,7 @@ dep 'ripgrep.osx', :version do
 end
 
 dep 'ripgrep', :version do
-  version.default!('0.10.0')
+  version.default!('11.0.1')
   on :osx do
     requires 'ripgrep.osx'.with(version)
   end
