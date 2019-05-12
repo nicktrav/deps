@@ -5,7 +5,7 @@ meta :nghttp2 do
 end
 
 dep 'source.nghttp2', :version do
-  version.default!('1.37.0')
+  version.default!('1.38.0')
   met? { dir.p.exists? }
   meet {
     cd dir, create: true do
