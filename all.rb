@@ -17,6 +17,7 @@ dep 'core software' do
       'curl',
       'fzf',
       'go',
+      'google-cloud-sdk',
       'java',
       'maven',
       'personal:git',
