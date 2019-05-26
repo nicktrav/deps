@@ -18,6 +18,7 @@ dep 'core software' do
       'fzf',
       'go',
       'google-cloud-sdk',
+      'helm',
       'java',
       'maven',
       'personal:git',
