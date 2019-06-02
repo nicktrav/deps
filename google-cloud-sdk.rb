@@ -12,7 +12,7 @@ dep 'dir.gcloud' do
 end
 
 dep 'google-cloud-sdk.gcloud', :version do
-  version.default!('247.0.0')
+  version.default!('248.0.0')
   requires 'curl', 'dir.gcloud', 'tar.bin'
 
   url_base="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads"
