@@ -1,5 +1,5 @@
 dep 'curl', :version do
-  version.default!('7.64.1')
+  version.default!('7.65.0')
 
   requires 'lib.boringssl', 'lib.nghttp2'
   requires 'autoconf.bin', 'make.bin'
