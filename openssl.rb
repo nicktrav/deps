@@ -1,6 +1,6 @@
 dep 'openssl', :version do
   requires 'make.bin'
-  version.default!('1.1.1')
+  version.default!('1.1.1c')
   met? { shell? "openssl version | grep -E '^OpenSSL #{version}'" }
   meet {
     cd '/tmp' do
