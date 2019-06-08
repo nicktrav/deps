@@ -12,13 +12,28 @@ meta :rust do
   end
 end
 
-dep 'rustup.rust' do
+dep 'rustup.rust', :version do
   requires 'curl', 'dotfiles'
-  met? { shell? "#{rustup} --version" }
+  version.default!('1.18.3')
+  met? { shell? "#{rustup} --version | grep #{version}" }
   meet {
-    shell <<-HERE
-      curl -Ssf https://sh.rustup.rs | sh -s -- -y
-    HERE
+    url_base = "https://static.rust-lang.org/rustup/archive/#{version}"
+    arch = nil
+    on :debian do
+      arch = 'x86_64-unknown-linux-gnu'
+    end
+    on :osx do
+      arch = 'x86_64-apply-darwin'
+    end
+    url = "#{url_base}/#{arch}/rustup-init"
+    cd '/tmp' do
+      shell "curl -O -L #{url}"
+      shell 'chmod +x rustup-init'
+      shell './rustup-init -y'
+    end
+    after do
+      shell 'rm /tmp/rustup-init'
+    end
   }
 end
 
