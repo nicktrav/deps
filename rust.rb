@@ -23,7 +23,7 @@ dep 'rustup.rust', :version do
       arch = 'x86_64-unknown-linux-gnu'
     end
     on :osx do
-      arch = 'x86_64-apply-darwin'
+      arch = 'x86_64-apple-darwin'
     end
     url = "#{url_base}/#{arch}/rustup-init"
     cd '/tmp' do
