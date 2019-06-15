@@ -1,5 +1,5 @@
 dep 'protoc', :version do
-  version.default!('3.6.1')
+  version.default!('3.8.0')
   requires 'curl', 'dotfiles'
   met? { shell? "protoc --version | grep #{version}" }
   meet {
@@ -15,6 +15,7 @@ dep 'protoc', :version do
       url = "https://github.com/protocolbuffers/protobuf/releases/download/v#{version}/#{artifact}.zip"
       shell "curl -L -o protoc.zip #{url}"
       shell 'unzip protoc.zip -d protoc'
+      shell "rm -rf #{install_dir}", sudo: true
       shell "cp -r protoc #{install_dir}", sudo: true
       shell "ln -sf #{install_dir}/bin/protoc /usr/local/bin/protoc", sudo: true
     end
