@@ -26,7 +26,7 @@ dep 'helm', :version do
       on :osx do
         shell "tar xzf #{tarball} --strip-components 1 #{platform}/helm"
       end
-      shell "mv helm /usr/local/bin/helm"
+      shell "mv -f helm /usr/local/bin/helm"
     end
   }
   after {
