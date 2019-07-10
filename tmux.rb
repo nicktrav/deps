@@ -37,7 +37,7 @@ dep 'tmux' do
   end
 
   on :osx do
-    requires 'tmux.osx'.with('2.8')
+    requires 'tmux.osx'.with('2.9a')
   end
 
   requires 'tmux.dotfile'
