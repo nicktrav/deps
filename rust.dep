@@ -1,0 +1,37 @@
+load('rustup.dep', 'rustup')
+
+VERSION = '1.35.0'
+
+toolchain = dep(
+  name = 'rust-toolchain',
+  requires = [rustup],
+  met = [shell("rustup toolchain list | grep default | grep {}".format(VERSION), login=True)],
+  meet = [
+    shell("rustup toolchain add {}".format(VERSION), login=True),
+    shell("rustup default {}".format(VERSION), login=True),
+  ],
+)
+
+def rust_component(component):
+  return dep(
+    name = "rust-{}".format(component),
+    requires = [rustup, toolchain],
+    met = [shell("rustup component list | grep {}".format(component), login=True)],
+    meet = [shell("rustup component add {}".format(component), login=True)],
+  )
+
+cargo = rust_component('cargo')
+rustc = rust_component('rustc')
+rustfmt = rust_component('rustfmt')
+rust_src = rust_component('rust-src')
+
+rust = dep(
+  name = 'rust',
+  requires = [
+    cargo,
+    rustc,
+    rustfmt,
+    rust_src,
+    toolchain,
+  ]
+)

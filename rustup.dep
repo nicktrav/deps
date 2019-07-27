@@ -1,0 +1,29 @@
+load('curl.dep', 'curl')
+load('dotfiles.dep', 'dotfiles')
+
+VERSION = '1.18.3'
+
+arch = 'apple-darwin' if os() == 'darwin' else 'unknown-linux-gnu'
+
+install_cmd = """
+set -exuo pipefail
+
+version={}
+arch=x86_64-{}
+url_base="https://static.rust-lang.org/rustup/archive/$version"
+url="$url_base/$arch/rustup-init"
+
+rm -f /tmp/rustup-init
+cd /tmp
+curl -O -L "$url"
+chmod +x rustup-init
+./rustup-init -y
+rm -f /tmp/rustup-init
+""".format(VERSION, arch)
+
+rustup = dep(
+  name = 'rustup',
+  requires = [curl, dotfiles],
+  met = [shell("rustup --version | grep {}".format(VERSION), login=True)],
+  meet = [shell(install_cmd)],
+)

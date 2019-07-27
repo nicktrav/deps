@@ -1,0 +1,11 @@
+DIR = "~/Development"
+
+development_dir = dep(
+  name = 'development-dir',
+  met = [
+    shell("stat {}".format(DIR)),
+  ],
+  meet = [
+    shell("mkdir -p {}".format(DIR)),
+  ],
+)

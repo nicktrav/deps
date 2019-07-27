@@ -1,0 +1,31 @@
+load('dirs.dep', DEV_DIR='DIR')
+load('dotfiles.dep', 'dotfiles')
+load('go.dep', 'go')
+
+VERSION = '1.11.0'
+DIR = "{}/go/src/github.com/square/certigo".format(DEV_DIR)
+
+source = dep(
+  name = 'certigo-source',
+  requires = [go],
+  met = [shell("go list github.com/square/certigo", login=True)],
+  meet = [shell("go get github.com/square/certigo", login=True)],
+)
+
+install_cmd = """
+cd {}
+git checkout v{}
+go install
+""".format(DIR, VERSION)
+
+binary = dep(
+  name = 'certigo-binary',
+  requires = [dotfiles, go, source],
+  met = [shell("certigo --version 2>&1 | grep {}".format(VERSION), login=True)],
+  meet = [shell(install_cmd, login=True)],
+)
+
+certigo = dep(
+  name = 'certigo',
+  requires = [binary],
+)

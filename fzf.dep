@@ -1,0 +1,16 @@
+VERSION = '0.18.0'
+
+install_cmd = """
+rm -rf /tmp/fzf
+git clone https://github.com/junegunn/fzf.git /tmp/fzf
+cd /tmp/fzf && git fetch -t && git checkout {}
+make && make install
+cp bin/fzf /usr/local/bin/
+rm -rf /tmp/fzf
+""".format(VERSION)
+
+fzf = dep(
+  name = 'fzf',
+  met = [shell("fzf --version | grep {}".format(VERSION))],
+  meet = [shell(install_cmd)],
+)

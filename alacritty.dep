@@ -1,0 +1,51 @@
+load("curl.dep", "curl")
+load("dotfiles.dep", "dotfiles")
+load("libexpat.dep", "libexpat")
+load("libfontconfig.dep", "libfontconfig")
+load("libfreetype.dep", "libfreetype")
+load("libgcc.dep", "libgcc")
+load("libpng.dep", "libpng")
+load("zlib.dep", "zlib")
+
+VERSION = '0.3.2'
+
+linux_install_cmd = """
+_version={}
+cd /tmp
+curl -o alacritty.deb -L "https://github.com/jwilm/alacritty/releases/download/v$_version/Alacritty-v$_version-ubuntu_18_04_amd64.deb"
+dpkg -i alacritty.deb
+rm alacritty.deb
+""".format(VERSION)
+
+alacritty_linux = dep(
+  name = 'alacritty-linux',
+  requires = [
+    curl, libexpat, libfontconfig, libfreetype, libgcc, libpng, zlib
+  ],
+  met = [shell('which alacritty')],
+  meet = [shell(linux_install_cmd)],
+)
+
+alacritty_macos = dep(
+  name = 'alacritty-macos',
+  met = [
+    shell('brew cask list alacritty'),
+  ],
+  meet = [
+    shell('brew install alacritty'),
+  ],
+)
+
+def _alacritty():
+  if os() == "linux":
+    return alacritty_linux
+  elif os() == "darwin":
+    return alacritty_macos
+
+alacritty = dep(
+  name = 'alacritty',
+  requires = [
+    dotfiles,
+    _alacritty()
+  ]
+)

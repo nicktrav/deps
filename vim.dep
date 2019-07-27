@@ -1,0 +1,26 @@
+load('dotfiles.dep', 'dotfiles')
+
+vim_macos = dep(
+  name = 'vim-macos',
+  requires = [dotfiles],
+  met = [shell('brew list vim')],
+  meet = [shell('brew install vim --with-override-system-vi')],
+)
+
+vim_linux = dep(
+  name = 'vim-linux',
+  requires = [dotfiles],
+  met = [shell('which vim')],
+  meet = [shell('apt-get install -y vim')],
+)
+
+def _vim():
+  if os() == 'linux':
+    return vim_linux
+  elif os() == 'darwin':
+    return vim_macos
+
+vim = dep(
+  name = 'vim',
+  requires = [_vim()],
+)

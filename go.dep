@@ -1,0 +1,64 @@
+VERSION = '1.12.6'
+PLATFORM = "{}-amd64".format(os())
+
+load('dotfiles.dep', 'dotfiles')
+load('dirs.dep', 'development_dir', DEV_DIR='DIR')
+load('tar.dep', 'tar')
+load('wget.dep', 'wget')
+
+DIR = "{}/go".format(DEV_DIR)
+
+go_dir = dep(
+  name = 'go-dir',
+  requires = [
+    development_dir,
+  ],
+  met = [
+    shell("stat {}".format(DIR)),
+  ],
+  meet = [
+    shell("mkdir -p {}".format(DIR)),
+  ],
+)
+
+BUILD = """
+set -euo pipefail
+
+_tarball="go{}.{}.tar.gz"
+_url="https://dl.google.com/go/$_tarball"
+
+rm -rf /usr/local/go /tmp/go*
+cd /tmp && wget "$_url"
+tar xzf "$_tarball" -C /usr/local
+
+rm -rf "$_tarball"
+""".format(VERSION, PLATFORM)
+
+go_lang = dep(
+  name = 'go-lang',
+  requires = [dotfiles, tar, wget],
+  met = [
+    shell("/usr/local/go/bin/go version | grep {}".format(VERSION))
+  ],
+  meet = [shell(BUILD)],
+)
+
+go_symlink = dep(
+  name = 'go-symlink',
+  requires = [go_lang],
+  met = [
+    shell('stat /usr/local/bin/go'),
+  ],
+  meet = [
+    shell('ln -sf /usr/local/go/bin/go /usr/local/bin/go'),
+  ]
+)
+
+go = dep(
+  name = 'go',
+  requires = [
+    go_dir,
+    go_lang,
+    go_symlink,
+  ],
+)

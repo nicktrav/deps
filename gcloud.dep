@@ -1,0 +1,29 @@
+DIR = '~/google-cloud-sdk'
+VERSION = '254.0.0'
+
+load('curl.dep', 'curl')
+load('python.dep', 'python')
+load('tar.dep', 'tar')
+
+gcloud_dir = dep(
+  name = 'gcloud-dir',
+  met = [shell("stat {}".format(DIR))],
+  meet = [shell("mkdir -p {}".format(DIR))],
+)
+
+install_cmd = """
+url_base="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads"
+url="$url_base/google-cloud-sdk-{}-{}-x86_64.tar.gz"
+
+cd {}
+curl -o google-cloud-sdk.tar.gz -L "$url"
+tar xzf google-cloud-sdk.tar.gz --strip 1
+rm -rf {}/google-cloud-sdk.tar.gz
+""".format(VERSION, os(), DIR, DIR)
+
+gcloud = dep(
+  name = 'gcloud',
+  requires = [curl, gcloud_dir, python, tar],
+  met = [shell("gcloud --version | grep {}".format(VERSION), login=True)],
+  meet = [shell(install_cmd)],
+)

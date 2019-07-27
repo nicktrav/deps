@@ -1,0 +1,51 @@
+load("autoconf.dep", "autoconf")
+load("git.dep", "git")
+load("gpp.dep", "gpp")
+load("make.dep", "make")
+load("pkg-config.dep", "pkg_config")
+
+VERSION_LINUX = '9d32534c'
+
+install_cmd_linux = """
+set -euo pipefail
+
+rm -rf /tmp/ctags
+cd /tmp
+git clone https://github.com/universal-ctags/ctags.git
+cd ctags
+git checkout {}
+./autogen.sh
+./configure
+make
+make install
+
+rm -rf /tmp/ctags
+""".format(VERSION_LINUX)
+
+ctags_linux = dep(
+  name = 'ctags-linux',
+  requires = [autoconf, git, gpp, make, pkg_config],
+  met = [shell("ctags --version")],
+  meet = [shell(install_cmd_linux)],
+)
+
+install_cmd_macos = """
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+"""
+
+ctags_macos = dep(
+  name = 'ctags-macos',
+  met = [shell("ctags --version")],
+  meet = [shell(install_cmd_macos)],
+)
+
+def _ctags():
+  if os() == 'linux':
+    return ctags_linux
+  elif os() == 'darwin':
+    return ctags_macos
+
+ctags = dep(
+  name = 'ctags',
+  requires = [_ctags()],
+)

@@ -1,0 +1,30 @@
+load('curl.dep', 'curl')
+load('tar.dep', 'tar')
+
+VERSION = '0.6.0'
+
+install_cmd_linux = """
+set -exuo pipefail
+
+version={}
+os={}
+
+tarball="shellcheck-v$version.linux.x86_64.tar.xz"
+url="https://storage.googleapis.com/shellcheck/$tarball"
+
+cd /tmp
+rm -rf shellcheck*
+curl -O -L "$url"
+tar -xJf "$tarball"
+cp "shellcheck-v$version/shellcheck" /usr/local/bin/
+rm -rf "$tarball" shellcheck*
+""".format(VERSION, os())
+
+shellcheck = dep(
+  name = 'shellcheck',
+  requires = [curl, tar],
+  met = [shell("shellcheck --version | grep {}".format(VERSION))],
+  meet = [
+    shell("brew install shellcheck") if os() == 'darwin' else shell(install_cmd_linux)
+  ],
+)

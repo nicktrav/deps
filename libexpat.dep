@@ -1,0 +1,8 @@
+load("apt.dep", buster="debian_buster")
+
+libexpat = dep(
+  name = 'libexpat',
+  requires = [buster],
+  met = [shell("apt-cache policy libexpat1 | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y libexpat1 -t buster')],
+)

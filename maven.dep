@@ -1,0 +1,26 @@
+load('curl.dep', 'curl')
+load('dotfiles.dep', 'dotfiles')
+load('java.dep', 'java')
+
+VERSION = '3.6.1'
+
+install_cmd = """
+version={}
+url="https://archive.apache.org/dist/maven/maven-3/$version/binaries/apache-maven-$version-bin.tar.gz"
+tarball='maven.tar.gz'
+install_dir='/usr/local/src/maven'
+# TODO(nickt): verify the sig
+cd /tmp
+curl -L -o "$tarball" "$url"
+mkdir -p "$install_dir"
+tar xzf "$tarball" -C "$install_dir" --strip 1
+ln -s "$install_dir/bin/mvn" /usr/local/bin/mvn
+rm -rf /tmp/maven*
+""".format(VERSION)
+
+maven = dep(
+  name = 'maven',
+  requires = [curl, dotfiles, java],
+  met = [shell("mvn --version | grep {}".format(VERSION), login=True)],
+  meet = [shell(install_cmd, login=True)],
+)

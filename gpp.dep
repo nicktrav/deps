@@ -1,0 +1,9 @@
+gpp = dep(
+  name = 'g++',
+  met = [
+    shell('which g++'),
+  ],
+  meet = [
+    shell('apt-get install -y g++'),
+  ],
+)

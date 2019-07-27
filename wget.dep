@@ -1,0 +1,5 @@
+wget = dep(
+  name = 'wget',
+  met = [shell('which wget')],
+  meet = [shell('apt-get install -y wget')],
+)

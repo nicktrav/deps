@@ -1,0 +1,63 @@
+VERSION = '7.65.1'
+VERSION_DASH = VERSION.replace('.', '_')
+
+load('autoconf.dep', 'autoconf')
+load('boringssl.dep', boringssl='libs')
+load('make.dep', 'make')
+load('nghttp2.dep', nghttp2='libs')
+load('tar.dep', 'tar')
+load('wget.dep', 'wget')
+
+install_linux = """
+./buildconf
+LIBS=-lpthread LDFLAGS="-static" ./configure \
+  --disable-shared \
+  --enable-static \
+  --with-nghttp2=/usr/local \
+  --with-ssl=$HOME/Development/boringssl
+"""
+
+install_macos = """
+./configure \
+  --with-nghttp2=/usr/local \
+  --with-ssl=$HOME/Development/boringssl
+"""
+
+def _install_cmd():
+  if os() == 'linux':
+    return install_linux
+  elif os() == 'darwin':
+    return install_macos
+
+BUILD = """
+set -euo pipefail
+
+_version_dash={}
+_version={}
+
+cd /tmp
+rm -rf curl*
+
+wget -O curl.tar.gz "https://github.com/curl/curl/releases/download/curl-$_version_dash/curl-$_version.tar.gz"
+tar xzf curl.tar.gz
+
+cd "curl-$_version"
+
+{}
+
+make
+make install
+
+rm -rf /tmp/curl*
+""".format(VERSION_DASH, VERSION, _install_cmd())
+
+curl = dep(
+  name = 'curl',
+  requires = [
+    autoconf, boringssl, make, nghttp2, tar, wget,
+  ],
+  met = [
+    shell("curl --version | grep -E '^curl {}'".format(VERSION)),
+  ],
+  meet = [shell(BUILD)],
+)

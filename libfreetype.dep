@@ -1,0 +1,8 @@
+load("apt.dep", buster="debian_buster")
+
+libfreetype = dep(
+  name = 'libfreetype',
+  requires = [buster],
+  met = [shell("apt-cache policy libfreetype6 | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y libfreetype6 -t buster')],
+)

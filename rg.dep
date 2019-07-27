@@ -1,0 +1,51 @@
+load('curl.dep', 'curl')
+
+VERSION = '11.0.1'
+
+install_cmd_macos = """
+set -euo pipefail
+
+rm -rf /tmp/rg*
+
+cd /tmp
+curl -L -o rg.tar.gz "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-apple-{version}-x86_64-apple-darwin.tar.gz"
+tar --strip 1 -xzf rg.tar.gz */rg
+mv rg /usr/local/bin/
+
+rm -rf /tmp/rg*
+""".format(version=VERSION)
+
+rg_macos = dep(
+  name = 'rg-macos',
+  requires = [curl],
+  met = [shell("rg --version | grep {}".format(VERSION))],
+  meet = [shell(install_cmd_macos)],
+)
+
+install_cmd_linux = """
+set -euo pipefail
+
+rm -f /tmp/rg.deb
+cd /tmp
+curl -L -o rg.deb "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep_{version}_amd64.deb"
+apt install /tmp/rg.deb
+rm rg.deb
+""".format(version=VERSION)
+
+rg_linux = dep(
+  name = 'rg-linux',
+  requires = [curl],
+  met = [shell("rg --version | grep {}".format(VERSION))],
+  meet = [shell(install_cmd_linux)],
+)
+
+def _rg():
+  if os() == 'linux':
+    return rg_linux
+  if os() == 'darwin':
+    return rg_macos
+
+rg = dep(
+  name = 'rg',
+  requires = [_rg()],
+)

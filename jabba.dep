@@ -1,0 +1,30 @@
+load('dirs.dep', DEV_DIR='DIR')
+load('dotfiles.dep', 'dotfiles')
+load('go.dep', 'go')
+
+VERSION = '0.11.2'
+DIR = "{}/go/src/github.com/shyiko/jabba".format(DEV_DIR)
+
+source = dep(
+  name = 'jabba-source',
+  requires = [go],
+  met = [shell("go list github.com/shyiko/jabba", login=True)],
+  meet = [shell("go get github.com/shyiko/jabba", login=True)],
+)
+
+install_cmd = """
+cd {}
+JABBA_VERSION={} bash install.sh
+""".format(DIR, VERSION)
+
+binary = dep(
+  name = 'jabba-binary',
+  requires = [dotfiles, go, source],
+  met = [shell("jabba --version | grep {}".format(VERSION), login=True)],
+  meet = [shell(install_cmd)],
+)
+
+jabba = dep(
+  name = 'jabba',
+  requires = [binary],
+)

@@ -1,0 +1,11 @@
+load('dotfiles.dep', 'dotfiles')
+load('rust.dep', 'cargo')
+
+VERSION = '3.5.1'
+
+rusty_tags = dep(
+  name = 'rusty-tags',
+  requires = [dotfiles, cargo],
+  met = [shell("rusty-tags --version | grep {}".format(VERSION), login=True)],
+  meet = [shell("cargo install --force --version {} rusty-tags".format(VERSION), login=True)],
+)
