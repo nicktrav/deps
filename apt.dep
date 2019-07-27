@@ -1,0 +1,21 @@
+debian_backports = dep(
+  name = 'debian-backports',
+  met = [
+    shell('cat /etc/apt/sources.list | grep stretch-backports'),
+  ],
+  meet = [
+    shell("echo 'deb http://deb.debian.org/debian stretch-backports main' >> /etc/apt/sources.list"),
+    shell('apt-get update'),
+  ],
+)
+
+debian_buster = dep(
+  name = 'debian-buster',
+  met = [
+    shell('cat /etc/apt/sources.list | grep buster'),
+  ],
+  meet = [
+    shell("echo 'deb http://deb.debian.org/debian buster main' >> /etc/apt/sources.list"),
+    shell('apt-get update'),
+  ],
+)

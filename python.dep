@@ -1,0 +1,5 @@
+python = dep(
+  name = 'python',
+  met = [shell('which python')],
+  meet = [shell('apt-get install -y python')],
+)

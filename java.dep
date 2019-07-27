@@ -1,0 +1,36 @@
+load('dotfiles.dep', 'dotfiles')
+load('jabba.dep', 'jabba')
+
+def java_version(version):
+  return dep(
+    name = "java-{}".format(version),
+    requires = [jabba, dotfiles],
+    met = [shell("jabba ls | grep {}".format(version), login=True)],
+    meet = [shell("jabba install {}".format(version), login=True)],
+)
+
+java_versions = dep(
+  name = 'java-versions',
+  requires = [
+    java_version('openjdk@1.13.0'),
+    java_version('openjdk@1.11.0-2'),
+    java_version('adopt@1.8.212-03'),
+  ],
+)
+
+DEFAULT_VERSION = 'adopt@1.8.212-03'
+
+default_version = dep(
+  name = 'java-default-version',
+  requires = [jabba, java_versions],
+  met = [shell("jabba alias default | grep {}".format(DEFAULT_VERSION), login=True)],
+  meet = [shell("jabba alias default {}".format(DEFAULT_VERSION), login=True)],
+)
+
+java = dep(
+  name = 'java',
+  requires = [
+    java_versions,
+    default_version,
+  ],
+)

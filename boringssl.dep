@@ -1,0 +1,66 @@
+DIR = '~/Development/boringssl'
+GIT_REPO = 'https://boringssl.googlesource.com/boringssl'
+SHA = '8e8f250422663106d478f6927beefba289a95b37'
+
+load('dirs.dep', 'development_dir')
+load('git.dep', 'git')
+load('make.dep', 'make')
+load('cmake.dep', 'cmake')
+load('go.dep', 'go')
+load('gpp.dep', 'gpp')
+
+# Source code
+
+source = dep(
+  name = 'boringssl-source',
+  requires = [development_dir, git],
+  met = [
+    shell("stat {}".format(DIR)),
+  ],
+  meet = [
+    shell("mkdir -p {}".format(DIR)),
+    shell("git clone {} {}".format(GIT_REPO, DIR)),
+  ],
+)
+
+version = dep(
+  name = 'boringssl-version',
+  requires = [git],
+  met = [
+    shell("cd {} && git rev-parse HEAD | grep {}".format(DIR, SHA)),
+  ],
+  meet = [
+    shell("cd {} && git checkout {}".format(DIR, SHA)),
+  ],
+)
+
+# Binaries
+
+BUILD = """
+set -euo pipefail
+
+cd {}
+
+rm -rf build/ lib/
+mkdir build/ && mkdir lib/
+
+cd build
+DCMAKE_BUILD_TYPE=Release cmake ..
+make
+
+cd ../lib
+ln -s ../build/ssl/libssl.a
+ln -s ../build/crypto/libcrypto.a
+""".format(DIR)
+
+libs = dep(
+  name = 'boringssl-libs',
+  requires = [
+    source, version,
+    make, cmake, gpp, go
+  ],
+  met = [
+    shell("stat {dir}/lib/libssl.a && stat {dir}/lib/libcrypto.a".format(dir=DIR)),
+  ],
+  meet = [shell(BUILD)],
+)

@@ -1,0 +1,5 @@
+zlib = dep(
+  name = 'zlib',
+  met = [shell('dpkg-query --show zlib1g')],
+  meet = [shell('apt-get install -y zlib1g')],
+)

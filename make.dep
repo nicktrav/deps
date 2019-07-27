@@ -1,0 +1,32 @@
+make_linux = dep(
+  name = 'make-linux',
+  met = [
+    shell("which make"),
+  ],
+  meet = [
+    shell('apt-get install -y make'),
+  ]
+)
+
+make_macos = dep(
+  name = 'make-macos',
+  met = [
+    shell("which make | grep 'gnubin/make'"),
+  ],
+  meet = [
+    shell('brew install make'),
+  ]
+)
+
+def _make():
+  if os() == "linux":
+    return make_linux
+  elif os() == "darwin":
+    return make_macos
+
+make = dep(
+  name = 'make',
+  requires = [
+    _make()
+  ]
+)

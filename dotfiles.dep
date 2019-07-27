@@ -1,0 +1,45 @@
+load("dirs.dep", "development_dir", DEV_DIR="DIR")
+load("git.dep", "git")
+
+DIR = "{}/dotfiles".format(DEV_DIR)
+
+cmd = """
+git clone \
+  --branch master \
+  --depth 1 \
+  https://github.com/nicktrav/dotfiles.git {}
+""".format(DIR)
+
+repo = dep(
+  name = 'dotfiles-repo',
+  requires = [development_dir, git],
+  met = [shell("stat {}".format(DIR))],
+  meet = [shell(cmd)],
+)
+
+VERSION_FILE = "~/.dotfiles_version"
+
+version_cmd = """
+[[ $(cat {}) == $(cd {} && git rev-parse HEAD) ]]
+""".format(VERSION_FILE, DIR)
+
+# TODO(nickt): switch dotfiles to take 'linux' as the os
+install_cmd = """
+cd {}
+./install.sh {}
+git rev-parse HEAD > {}
+""".format(DIR, 'debian' if os() == "linux" else 'macos', VERSION_FILE)
+
+version = dep(
+  name = 'dotfiles-version',
+  requires = [repo],
+  met = [shell(version_cmd)],
+  meet = [shell(install_cmd)],
+)
+
+dotfiles = dep(
+  name = 'dotfiles',
+  requires = [repo, version],
+  met = [],
+  meet = [],
+)

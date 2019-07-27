@@ -1,0 +1,5 @@
+tar = dep(
+  name = 'tar',
+  met = [shell('which tar')],
+  meet = [shell('apt-get install -y tar')],
+)

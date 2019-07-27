@@ -1,0 +1,34 @@
+load('curl.dep', 'curl')
+load('dotfiles.dep', 'dotfiles')
+load('unzip.dep', 'unzip')
+
+VERSION = '3.8.0'
+
+# In case of darwin, the expected artifact OS is 'osx'.
+os_replaced = 'osx' if os() == 'darwin' else os()
+
+install_cmd = """
+rm -rf /tmp/protoc*
+
+version={}
+os={}
+install_dir='/usr/local/src/protoc'
+artifact="protoc-$version-$os-x86_64"
+url="https://github.com/protocolbuffers/protobuf/releases/download/v$version/$artifact.zip"
+
+cd /tmp
+curl -L -o protoc.zip "$url"
+unzip protoc.zip -d protoc
+rm -rf "$install_dir"
+cp -r protoc "$install_dir"
+ln -sf "$install_dir/bin/protoc" /usr/local/bin/protoc
+
+rm -rf /tmp/protoc*
+""".format(VERSION, os_replaced)
+
+protoc = dep(
+  name = 'protoc',
+  requires = [curl, dotfiles, unzip],
+  met = [shell("protoc --version | grep {}".format(VERSION))],
+  meet = [shell(install_cmd)],
+)

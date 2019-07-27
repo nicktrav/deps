@@ -1,0 +1,30 @@
+cmake_linux = dep(
+  name = 'cmake-linux',
+  met = [
+    shell('which cmake'),
+  ],
+  meet = [
+    shell('apt-get install -y cmake'),
+  ]
+)
+
+cmake_macos = dep(
+  name = 'cmake-macos',
+  met = [
+    shell('which cmake'),
+  ],
+  meet = [
+    shell('brew install cmake'),
+  ]
+)
+
+def _cmake():
+  if os() == 'linux':
+    return cmake_linux
+  elif os() == 'darwin':
+    return cmake_macos
+
+cmake = dep(
+  name = 'cmake',
+  requires = [_cmake()],
+)

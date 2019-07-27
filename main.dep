@@ -1,0 +1,53 @@
+load('alacritty.dep', 'alacritty')
+load('certigo.dep', 'certigo')
+load('ctags.dep', 'ctags')
+load('curl.dep', 'curl')
+load('dirs.dep', 'development_dir')
+load('dotfiles.dep', 'dotfiles')
+load('fzf.dep', 'fzf')
+load('gcloud.dep', 'gcloud')
+load('go.dep', 'go')
+load('helm.dep', 'helm')
+load('java.dep', 'java')
+load('maven.dep', 'maven')
+load('protoc.dep', 'protoc')
+load('rg.dep', 'rg')
+load('rust.dep', 'rust')
+load('rustup.dep', 'rustup')
+load('rusty-tags.dep', 'rusty_tags')
+load('shellcheck.dep', 'shellcheck')
+load('tmux.dep', 'tmux')
+load('vim.dep', 'vim')
+
+core_software = dep(
+  name = 'core-software',
+  requires = [
+    alacritty,
+    certigo,
+    ctags,
+    curl,
+    fzf,
+    gcloud,
+    go,
+    helm,
+    java,
+    maven,
+    protoc,
+    rg,
+    rust,
+    rustup,
+    rusty_tags,
+    shellcheck,
+    tmux,
+    vim,
+  ],
+)
+
+all = dep(
+  name = 'all',
+  requires = [
+    core_software,
+    development_dir,
+    dotfiles,
+  ],
+)

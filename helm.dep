@@ -1,0 +1,21 @@
+VERSION = '2.14.0'
+
+load('curl.dep', 'curl')
+load('tar.dep', 'tar')
+
+install_cmd = """
+url_base="https://storage.googleapis.com/kubernetes-helm"
+url="$url_base/helm-v{}-{}-amd64.tar.gz"
+cd /tmp
+curl -L -o helm.tar.gz "$url"
+tar xzf helm.tar.gz --strip-components 1 {}-amd64/helm
+mv -f helm /usr/local/bin/helm
+rm -rf /tmp/helm*
+""".format(VERSION, os(), os())
+
+helm = dep(
+  name = 'helm',
+  requires = [curl, tar],
+  met = [shell("helm version -c | grep {}".format(VERSION))],
+  meet = [shell(install_cmd)],
+)

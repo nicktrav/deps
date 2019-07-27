@@ -1,0 +1,5 @@
+unzip = dep(
+  name = 'unzip',
+  met = [shell('which unzip')],
+  meet = [shell('apt-get install -y unzip')],
+)

@@ -1,0 +1,8 @@
+load("apt.dep", buster="debian_buster")
+
+libpng = dep(
+  name = 'libpng',
+  requires = [buster],
+  met = [shell("apt-cache policy libpng16-16 | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y libpng16-16 -t buster')],
+)

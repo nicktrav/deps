@@ -1,0 +1,30 @@
+automake_linux = dep(
+  name = 'automake-linux',
+  met = [
+    shell('which automake'),
+  ],
+  meet = [
+    shell('apt-get install -y automake'),
+  ]
+)
+
+automake_macos = dep(
+  name = 'automake-macos',
+  met = [
+    shell('which automake'),
+  ],
+  meet = [
+    shell('brew install automake'),
+  ]
+)
+
+def _automake():
+  if os() == 'linux':
+    return automake_linux
+  if os() == 'macos':
+    return automake_macos
+
+automake = dep(
+  name = 'automake',
+  requires = [_automake()],
+)

@@ -1,0 +1,5 @@
+libtoolize = dep(
+  name = 'libtoolize',
+  met = [shell('which libtoolize')],
+  meet = [shell('apt-get install -y libtool')],
+)

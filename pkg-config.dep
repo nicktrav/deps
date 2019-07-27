@@ -1,0 +1,5 @@
+pkg_config = dep(
+  name = 'pkg-config',
+  met = [shell('which pkg-config')],
+  meet = [shell('apt-get install -y pkg-config')],
+)

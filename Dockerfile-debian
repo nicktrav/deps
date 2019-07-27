@@ -1,7 +1,21 @@
-FROM debian:stretch
+FROM debian:stretch AS build
+
+WORKDIR /build
 
 RUN apt-get -y update && \
-  apt-get install -y curl lsb-release ruby sudo && \
-  sudo sh -c "$(curl https://babushka.me/up)"
+  apt-get install -y curl git && \
+  curl -L -o /tmp/go.tar.gz https://dl.google.com/go/go1.12.6.linux-amd64.tar.gz && \
+  tar xzf /tmp/go.tar.gz && \
+  mv go /usr/local/ && \
+  rm /tmp/go.tar.gz
 
-ADD . /root/.babushka/deps
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+RUN git clone https://github.com/nicktrav/matryoshka.git . && \
+  go build ./cmd/matryoshka/matryoshka.go
+
+FROM debian:stretch
+
+COPY --from=build /build/matryoshka /usr/local/bin/
+
+RUN apt-get update

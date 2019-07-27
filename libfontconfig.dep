@@ -1,0 +1,8 @@
+load("apt.dep", buster="debian_buster")
+
+libfontconfig = dep(
+  name = 'libfontconfig',
+  requires = [buster],
+  met = [shell("apt-cache policy libfontconfig1 | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y libfontconfig1 -t buster')],
+)

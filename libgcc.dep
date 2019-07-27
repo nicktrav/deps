@@ -1,0 +1,8 @@
+load("apt.dep", buster="debian_buster")
+
+libgcc = dep(
+  name = 'libgcc',
+  requires = [buster],
+  met = [shell("apt-cache policy libgcc1 | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y libgcc1 -t buster')],
+)
