@@ -8,6 +8,8 @@ VERSION = '3.8.0'
 os_replaced = 'osx' if os() == 'darwin' else os()
 
 install_cmd = """
+set -euo pipefail
+
 rm -rf /tmp/protoc*
 
 version={}
@@ -19,12 +21,12 @@ url="https://github.com/protocolbuffers/protobuf/releases/download/v$version/$ar
 cd /tmp
 curl -L -o protoc.zip "$url"
 unzip protoc.zip -d protoc
-rm -rf "$install_dir"
-cp -r protoc "$install_dir"
-ln -sf "$install_dir/bin/protoc" /usr/local/bin/protoc
+{sudo}rm -rf "$install_dir"
+{sudo}cp -r protoc "$install_dir"
+{sudo}ln -sf "$install_dir/bin/protoc" /usr/local/bin/protoc
 
 rm -rf /tmp/protoc*
-""".format(VERSION, os_replaced)
+""".format(VERSION, os_replaced, sudo='sudo ' if os() == 'darwin' else '')
 
 protoc = dep(
   name = 'protoc',

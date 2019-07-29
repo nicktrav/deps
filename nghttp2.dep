@@ -32,7 +32,7 @@ version = dep(
     shell("cd {} && git describe | grep {}".format(DIR, SHA)),
   ],
   meet = [
-    shell("cd {} && git checkout v{}".format(DIR, SHA)),
+    shell("cd {} && git fetch -t && git checkout v{}".format(DIR, SHA)),
   ],
 )
 

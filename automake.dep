@@ -21,7 +21,7 @@ automake_macos = dep(
 def _automake():
   if os() == 'linux':
     return automake_linux
-  if os() == 'macos':
+  if os() == 'darwin':
     return automake_macos
 
 automake = dep(
