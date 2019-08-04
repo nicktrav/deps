@@ -12,13 +12,13 @@ def java_version(version):
 java_versions = dep(
   name = 'java-versions',
   requires = [
-    java_version('openjdk@1.13.0'),
+    java_version('openjdk@1.14.0'),
     java_version('openjdk@1.11.0-2'),
-    java_version('adopt@1.8.212-03'),
+    java_version('adopt@1.8.222-10'),
   ],
 )
 
-DEFAULT_VERSION = 'adopt@1.8.212-03'
+DEFAULT_VERSION = 'adopt@1.8.222-10'
 
 default_version = dep(
   name = 'java-default-version',
