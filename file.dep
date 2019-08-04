@@ -1,0 +1,20 @@
+file_linux = dep(
+  name = 'file-linux',
+  met = [shell("apt-cache policy file | grep -F '***' -A 1")],
+  meet = [shell('apt-get install -y file')],
+)
+
+file_stub = dep(
+  name = 'file-stub'
+)
+
+def _file():
+  if os() == 'linux':
+    return file_linux
+  else:
+    return file_stub
+
+file = dep(
+  name = 'file',
+  requires = [_file()],
+)

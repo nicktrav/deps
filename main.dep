@@ -3,13 +3,18 @@ load('certigo.dep', 'certigo')
 load('ctags.dep', 'ctags')
 load('curl.dep', 'curl')
 load('dirs.dep', 'development_dir')
+load('dnsutils.dep', 'dnsutils')
 load('dotfiles.dep', 'dotfiles')
+load('file.dep', 'file')
+load('fonts.dep', 'fonts')
 load('fzf.dep', 'fzf')
 load('gcloud.dep', 'gcloud')
 load('go.dep', 'go')
 load('helm.dep', 'helm')
 load('java.dep', 'java')
+load('libevent.dep', 'libevent')
 load('maven.dep', 'maven')
+load('net-tools.dep', 'net_tools')
 load('protoc.dep', 'protoc')
 load('rg.dep', 'rg')
 load('rust.dep', 'rust')
@@ -26,12 +31,17 @@ core_software = dep(
     certigo,
     ctags,
     curl,
+    dnsutils,
+    file,
+    fonts,
     fzf,
     gcloud,
     go,
     helm,
     java,
+    libevent,
     maven,
+    net_tools,
     protoc,
     rg,
     rust,

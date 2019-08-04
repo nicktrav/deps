@@ -1,0 +1,35 @@
+load("apt.dep", buster="debian_buster")
+
+inconsolata = dep(
+  name = 'font-inconsolata',
+  requires = [buster],
+  met = [shell("apt-cache policy fonts-inconsolata | grep -F '***' -A 2 | grep buster")],
+  meet = [shell('apt-get install -y fonts-inconsolata -t buster')],
+)
+
+powerline = dep(
+  name = 'font-powerline',
+  requires = [buster],
+  met = [shell("apt-cache policy fonts-powerline | grep -F '***' -A 1 | grep buster")],
+  meet = [shell('apt-get install -y fonts-powerline -t buster')],
+)
+
+fonts_linux = dep(
+  name = 'fonts-linux',
+  requires = [inconsolata, powerline],
+)
+
+fonts_stub = dep(
+  name = 'fonts-stub'
+)
+
+def _fonts():
+  if os() == 'linux':
+    return fonts_linux
+  else:
+    return fonts_stub
+
+fonts = dep(
+  name = 'fonts',
+  requires = [_fonts()],
+)
