@@ -5,6 +5,7 @@ vim_macos = dep(
   requires = [dotfiles],
   met = [shell('brew list vim')],
   meet = [shell('brew install vim --with-override-system-vi')],
+  enable = os() == 'darwin',
 )
 
 vim_linux = dep(
@@ -12,15 +13,10 @@ vim_linux = dep(
   requires = [dotfiles],
   met = [shell('which vim')],
   meet = [shell('apt-get install -y vim')],
+  enable = os() == 'linux',
 )
-
-def _vim():
-  if os() == 'linux':
-    return vim_linux
-  elif os() == 'darwin':
-    return vim_macos
 
 vim = dep(
   name = 'vim',
-  requires = [_vim()],
+  requires = [vim_linux, vim_macos],
 )

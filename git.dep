@@ -5,6 +5,7 @@ git_linux = dep(
   requires = [debian_backports],
   met = [shell("which git")],
   meet = [shell("apt-get install -y git -t stretch-backports")],
+  enable = os() == 'linux',
 )
 
 git_macos = dep(
@@ -13,17 +14,10 @@ git_macos = dep(
   meet = [
     shell("brew install git"),
   ],
+  enable = os() == 'darwin',
 )
-
-def _git():
-  if os() == "linux":
-    return git_linux
-  elif os() == "darwin":
-    return git_macos
 
 git = dep(
   name = 'git',
-  requires = [
-    _git()
-  ]
+  requires = [git_linux, git_macos],
 )

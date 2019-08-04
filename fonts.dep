@@ -17,19 +17,10 @@ powerline = dep(
 fonts_linux = dep(
   name = 'fonts-linux',
   requires = [inconsolata, powerline],
+  enable = os() == 'linux',
 )
-
-fonts_stub = dep(
-  name = 'fonts-stub'
-)
-
-def _fonts():
-  if os() == 'linux':
-    return fonts_linux
-  else:
-    return fonts_stub
 
 fonts = dep(
   name = 'fonts',
-  requires = [_fonts()],
+  requires = [fonts_linux],
 )

@@ -5,6 +5,7 @@ tmux_macos = dep(
   requires = [],
   met = [shell("tmux -V | grep {}".format(VERSION))],
   meet = [shell("brew install tmux")],
+  enable = os() == 'darwin',
 )
 
 tmux_linux = dep(
@@ -12,15 +13,10 @@ tmux_linux = dep(
   requires = [],
   met = [shell("which tmux")],
   meet = [shell("apt-get install -y tmux")],
+  enable = os() == 'linux',
 )
-
-def _tmux():
-  if os() == 'linux':
-    return tmux_linux
-  elif os() == 'darwin':
-    return tmux_macos
 
 tmux = dep(
   name = 'tmux',
-  requires = [_tmux()],
+  requires = [tmux_linux, tmux_macos],
 )

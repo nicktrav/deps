@@ -20,6 +20,7 @@ rg_macos = dep(
   requires = [curl],
   met = [shell("rg --version | grep {}".format(VERSION))],
   meet = [shell(install_cmd_macos)],
+  enable = os() == 'darwin',
 )
 
 install_cmd_linux = """
@@ -37,15 +38,10 @@ rg_linux = dep(
   requires = [curl],
   met = [shell("rg --version | grep {}".format(VERSION))],
   meet = [shell(install_cmd_linux)],
+  enable = os() == 'linux',
 )
-
-def _rg():
-  if os() == 'linux':
-    return rg_linux
-  if os() == 'darwin':
-    return rg_macos
 
 rg = dep(
   name = 'rg',
-  requires = [_rg()],
+  requires = [rg_linux, rg_macos],
 )

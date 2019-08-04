@@ -2,19 +2,10 @@ net_tools_linux = dep(
   name = 'net-tools-linux',
   met = [shell("apt-cache policy net-tools | grep -F '***' -A 1")],
   meet = [shell('apt-get install -y net-tools')],
+  enable = os() == 'linux',
 )
-
-net_tools_stub = dep(
-  name = 'net-tools-stub'
-)
-
-def _net_tools():
-  if os() == 'linux':
-    return net_tools_linux
-  else:
-    return net_tools_stub
 
 net_tools = dep(
   name = 'net-tools',
-  requires = [_net_tools()],
+  requires = [net_tools_linux],
 )

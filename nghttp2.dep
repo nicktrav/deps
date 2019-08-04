@@ -58,6 +58,7 @@ libs_macos = dep(
     shell('stat /usr/local/lib/libnghttp2.dylib')
   ],
   meet = [shell(install_cmd)],
+  enable = os() == 'darwin',
 )
 
 libs_linux = dep(
@@ -70,15 +71,10 @@ libs_linux = dep(
     shell('stat /usr/local/lib/libnghttp2.so')
   ],
   meet = [shell(install_cmd)],
+  enable = os() == 'linux',
 )
-
-def _libs():
-  if os() == 'linux':
-    return libs_linux
-  elif os() == 'darwin':
-    return libs_macos
 
 libs = dep(
   name = 'nghttp2-libs',
-  requires = [_libs()],
+  requires = [libs_linux, libs_macos],
 )

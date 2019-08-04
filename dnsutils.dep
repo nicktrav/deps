@@ -2,19 +2,10 @@ dnsutils_linux = dep(
   name = 'dnsutils-linux',
   met = [shell("apt-cache policy dnsutils | grep -F '***' -A 1")],
   meet = [shell('apt-get install -y dnsutils')],
+  enable = os() == 'linux',
 )
-
-dnsutils_stub = dep(
-  name = 'dnsutils-stub'
-)
-
-def _dnsutils():
-  if os() == 'linux':
-    return dnsutils_linux
-  else:
-    return dnsutils_stub
 
 dnsutils = dep(
   name = 'dnsutils',
-  requires = [_dnsutils()],
+  requires = [dnsutils_linux],
 )
