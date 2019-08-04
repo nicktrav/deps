@@ -1,0 +1,20 @@
+libevent_linux = dep(
+  name = 'libevent-linux',
+  met = [shell("apt-cache policy libevent-dev | grep -F '***' -A 1")],
+  meet = [shell('apt-get install -y libevent-dev')],
+)
+
+libevent_stub = dep(
+  name = 'libevent-stub'
+)
+
+def _libevent():
+  if os() == 'linux':
+    return libevent_linux
+  else:
+    return libevent_stub
+
+libevent = dep(
+  name = 'libevent',
+  requires = [_libevent()],
+)
