@@ -1,6 +1,6 @@
 load('curl.dep', 'curl')
 
-VERSION = '11.0.1'
+VERSION = '11.0.2'
 
 install_cmd_macos = """
 set -euo pipefail
@@ -8,9 +8,9 @@ set -euo pipefail
 rm -rf /tmp/rg*
 
 cd /tmp
-curl -L -o rg.tar.gz "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-apple-{version}-x86_64-apple-darwin.tar.gz"
+curl -L -o rg.tar.gz "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-x86_64-apple-darwin.tar.gz"
 tar --strip 1 -xzf rg.tar.gz */rg
-mv rg /usr/local/bin/
+mv -f rg /usr/local/bin/
 
 rm -rf /tmp/rg*
 """.format(version=VERSION)
