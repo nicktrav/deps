@@ -1,4 +1,4 @@
-VERSION = '1.12.6'
+VERSION = '1.12.7'
 PLATFORM = "{}-amd64".format(os())
 
 load('dotfiles.dep', 'dotfiles')
@@ -21,18 +21,20 @@ go_dir = dep(
   ],
 )
 
+sudo_cmd = 'sudo ' if os() == 'darwin' else ''
+
 BUILD = """
 set -euo pipefail
 
 _tarball="go{}.{}.tar.gz"
 _url="https://dl.google.com/go/$_tarball"
 
-rm -rf /usr/local/go /tmp/go*
+{sudo}rm -rf /usr/local/go /tmp/go*
 cd /tmp && wget "$_url"
-tar xzf "$_tarball" -C /usr/local
+{sudo}tar xzf "$_tarball" -C /usr/local
 
 rm -rf "$_tarball"
-""".format(VERSION, PLATFORM)
+""".format(VERSION, PLATFORM, sudo=sudo_cmd)
 
 go_lang = dep(
   name = 'go-lang',
