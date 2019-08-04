@@ -5,7 +5,8 @@ autoconf_linux = dep(
   ],
   meet = [
     shell('apt-get install -y autoconf'),
-  ]
+  ],
+  enable = os() == 'linux',
 )
 
 autoconf_macos = dep(
@@ -15,18 +16,11 @@ autoconf_macos = dep(
   ],
   meet = [
     shell('brew install autoconf'),
-  ]
+  ],
+  enable = os() == 'darwin',
 )
-
-def _autoconf():
-  if os() == "linux":
-    return autoconf_linux
-  elif os() == "darwin":
-    return autoconf_macos
 
 autoconf = dep(
   name = 'autoconf',
-  requires = [
-    _autoconf()
-  ]
+  requires = [autoconf_linux, autoconf_macos],
 )

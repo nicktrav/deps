@@ -5,7 +5,8 @@ make_linux = dep(
   ],
   meet = [
     shell('apt-get install -y make'),
-  ]
+  ],
+  enable = os() == 'linux',
 )
 
 make_macos = dep(
@@ -15,18 +16,11 @@ make_macos = dep(
   ],
   meet = [
     shell('brew install make'),
-  ]
+  ],
+  enable = os() == 'darwin',
 )
-
-def _make():
-  if os() == "linux":
-    return make_linux
-  elif os() == "darwin":
-    return make_macos
 
 make = dep(
   name = 'make',
-  requires = [
-    _make()
-  ]
+  requires = [make_linux, make_macos],
 )

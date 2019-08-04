@@ -27,6 +27,7 @@ ctags_linux = dep(
   requires = [autoconf, git, gpp, make, pkg_config],
   met = [shell("ctags --version")],
   meet = [shell(install_cmd_linux)],
+  enable = os() == 'linux',
 )
 
 install_cmd_macos = """
@@ -37,15 +38,10 @@ ctags_macos = dep(
   name = 'ctags-macos',
   met = [shell("ctags --version")],
   meet = [shell(install_cmd_macos)],
+  enable = os() == 'darwin',
 )
-
-def _ctags():
-  if os() == 'linux':
-    return ctags_linux
-  elif os() == 'darwin':
-    return ctags_macos
 
 ctags = dep(
   name = 'ctags',
-  requires = [_ctags()],
+  requires = [ctags_linux, ctags_macos],
 )

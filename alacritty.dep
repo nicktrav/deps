@@ -24,6 +24,7 @@ alacritty_linux = dep(
   ],
   met = [shell('which alacritty')],
   meet = [shell(linux_install_cmd)],
+  enable = os() == 'linux',
 )
 
 alacritty_macos = dep(
@@ -34,18 +35,14 @@ alacritty_macos = dep(
   meet = [
     shell('brew install alacritty'),
   ],
+  enable = os() == 'darwin',
 )
-
-def _alacritty():
-  if os() == "linux":
-    return alacritty_linux
-  elif os() == "darwin":
-    return alacritty_macos
 
 alacritty = dep(
   name = 'alacritty',
   requires = [
     dotfiles,
-    _alacritty()
+    alacritty_linux,
+    alacritty_macos,
   ]
 )
