@@ -1,21 +1,35 @@
+https_sources = dep(
+  name = 'apt-https-sources',
+  met = [
+    shell('[[ $(cat /etc/apt/sources.list | grep http://deb.debian.org | wc -l) -eq 0 ]]'),
+  ],
+  meet = [
+    shell('apt-get install -y apt-transport-https'),
+    shell("sed -i -e 's/http:\/\/deb.debian.org/https:\/\/deb.debian.org/' /etc/apt/sources.list"),
+    shell('apt-get update'),
+  ]
+)
+
 debian_backports = dep(
-  name = 'debian-backports',
+  name = 'apt-debian-backports',
+  requires = [https_sources],
   met = [
     shell('cat /etc/apt/sources.list | grep stretch-backports'),
   ],
   meet = [
-    shell("echo 'deb http://deb.debian.org/debian stretch-backports main' >> /etc/apt/sources.list"),
+    shell("echo 'deb https://deb.debian.org/debian stretch-backports main' >> /etc/apt/sources.list"),
     shell('apt-get update'),
   ],
 )
 
 debian_buster = dep(
-  name = 'debian-buster',
+  name = 'apt-debian-buster',
+  requires = [https_sources],
   met = [
     shell('cat /etc/apt/sources.list | grep buster'),
   ],
   meet = [
-    shell("echo 'deb http://deb.debian.org/debian buster main' >> /etc/apt/sources.list"),
+    shell("echo 'deb https://deb.debian.org/debian buster main' >> /etc/apt/sources.list"),
     shell('apt-get update'),
   ],
 )
