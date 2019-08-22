@@ -1,6 +1,6 @@
 load('rustup.dep', 'rustup')
 
-VERSION = '1.36.0'
+VERSION = '1.37.0'
 
 toolchain = dep(
   name = 'rust-toolchain',
