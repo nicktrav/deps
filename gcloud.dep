@@ -1,5 +1,5 @@
 DIR = '~/google-cloud-sdk'
-VERSION = '254.0.0'
+VERSION = '259.0.0'
 
 load('curl.dep', 'curl')
 load('python.dep', 'python')
