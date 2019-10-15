@@ -2,7 +2,7 @@ load('curl.dep', 'curl')
 load('dotfiles.dep', 'dotfiles')
 load('java.dep', 'java')
 
-VERSION = '3.6.1'
+VERSION = '3.6.2'
 
 install_cmd = """
 version={}
