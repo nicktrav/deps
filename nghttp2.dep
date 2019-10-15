@@ -9,7 +9,7 @@ load('pkg-config.dep', 'pkg_config')
 
 DIR = '~/Development/nghttp2'
 GIT_REPO = 'https://github.com/nghttp2/nghttp2.git'
-SHA = '1.38.0'
+SHA = '1.39.1'
 
 # Source code
 

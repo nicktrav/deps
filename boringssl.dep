@@ -1,6 +1,6 @@
 DIR = '~/Development/boringssl'
 GIT_REPO = 'https://boringssl.googlesource.com/boringssl'
-SHA = '8e8f250422663106d478f6927beefba289a95b37'
+SHA = '6f3e034fe58ce3bca3c1c32be6d603a6206c89af'
 
 load('dirs.dep', 'development_dir')
 load('git.dep', 'git')
