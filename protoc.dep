@@ -2,7 +2,7 @@ load('curl.dep', 'curl')
 load('dotfiles.dep', 'dotfiles')
 load('unzip.dep', 'unzip')
 
-VERSION = '3.8.0'
+VERSION = '3.10.0'
 
 # In case of darwin, the expected artifact OS is 'osx'.
 os_replaced = 'osx' if os() == 'darwin' else os()
