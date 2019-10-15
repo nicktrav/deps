@@ -1,7 +1,7 @@
 load('curl.dep', 'curl')
 load('dotfiles.dep', 'dotfiles')
 
-VERSION = '1.19.0'
+VERSION = '1.20.0'
 
 arch = 'apple-darwin' if os() == 'darwin' else 'unknown-linux-gnu'
 
