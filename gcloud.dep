@@ -1,6 +1,6 @@
 # Versions can be found at:
 # https://cloud.google.com/sdk/docs/downloads-versioned-archives
-VERSION = '274.0.0'
+VERSION = '278.0.0'
 DIR = '~/google-cloud-sdk'
 
 load('curl.dep', 'curl')
