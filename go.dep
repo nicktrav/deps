@@ -1,4 +1,4 @@
-VERSION = '1.13.8'
+VERSION = '1.14'
 PLATFORM = "{}-amd64".format(os())
 
 load('dotfiles.dep', 'dotfiles')
