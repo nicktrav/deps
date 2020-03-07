@@ -23,6 +23,7 @@ load('rusty-tags.dep', 'rusty_tags')
 load('shellcheck.dep', 'shellcheck')
 load('tmux.dep', 'tmux')
 load('vim.dep', 'vim')
+load('wget.dep', 'wget')
 
 core_software = dep(
   name = 'core-software',
@@ -50,6 +51,7 @@ core_software = dep(
     shellcheck,
     tmux,
     vim,
+    wget,
   ],
 )
 

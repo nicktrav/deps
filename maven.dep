@@ -12,10 +12,10 @@ install_dir='/usr/local/src/maven'
 # TODO(nickt): verify the sig
 cd /tmp
 curl -L -o "$tarball" "$url"
-mkdir -p "$install_dir"
-tar xzf "$tarball" -C "$install_dir" --strip 1
-ln -s "$install_dir/bin/mvn" /usr/local/bin/mvn
-rm -rf /tmp/maven*
+sudo mkdir -p "$install_dir"
+sudo tar xzf "$tarball" -C "$install_dir" --strip 1
+sudo ln -sf "$install_dir/bin/mvn" /usr/local/bin/mvn
+sudo rm -rf /tmp/maven*
 """.format(VERSION)
 
 maven = dep(

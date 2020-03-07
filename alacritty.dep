@@ -33,7 +33,7 @@ alacritty_macos = dep(
     shell('brew cask list alacritty'),
   ],
   meet = [
-    shell('brew install alacritty'),
+    shell('brew cask install alacritty'),
   ],
   enable = os() == 'darwin',
 )

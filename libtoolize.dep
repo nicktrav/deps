@@ -1,5 +1,21 @@
-libtoolize = dep(
-  name = 'libtoolize',
+libtoolize_linux = dep(
+  name = 'libtoolize-linux',
   met = [shell('which libtoolize')],
   meet = [shell('apt-get install -y libtool')],
+  enable = os() == 'linux',
+)
+
+libtoolize_macos = dep(
+  name = 'libtoolize-macos',
+  met = [shell('which libtoolize', login=True)],
+  meet = [
+    shell('brew install libtool'),
+    shell('ln -s /usr/local/bin/glibtoolize /usr/local/bin/libtoolize'),
+  ],
+  enable = os() == 'darwin',
+)
+
+libtoolize = dep(
+  name = 'libtoolize',
+  requires = [libtoolize_linux, libtoolize_macos],
 )

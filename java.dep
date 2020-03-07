@@ -12,19 +12,26 @@ def java_version(version):
 java_versions = dep(
   name = 'java-versions',
   requires = [
-    java_version('openjdk@1.14.0-20'),
+    java_version('openjdk@1.14.0'),
     java_version('openjdk@1.11.0-2'),
     java_version('adopt@1.8.0-232'),
   ],
 )
 
-DEFAULT_VERSION = 'adopt@1.8.0-222'
+DEFAULT_VERSION = 'adopt@1.8.0-232'
 
-default_version = dep(
-  name = 'java-default-version',
+default_version_alias = dep(
+  name = 'java-default-version-alias',
   requires = [jabba, java_versions],
   met = [shell("jabba alias default | grep {}".format(DEFAULT_VERSION), login=True)],
   meet = [shell("jabba alias default {}".format(DEFAULT_VERSION), login=True)],
+)
+
+default_version = dep(
+  name = 'java-default-version',
+  requires = [default_version_alias],
+  met = [shell("jabba current | grep {}".format(DEFAULT_VERSION), login=True)],
+  meet = [shell('jabba use default', login=True)],
 )
 
 java = dep(

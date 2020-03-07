@@ -1,5 +1,25 @@
-wget = dep(
-  name = 'wget',
+wget_linux  = dep(
+  name = 'wget-linux',
   met = [shell('which wget')],
   meet = [shell('apt-get install -y wget')],
+)
+
+
+wget_macos = dep(
+  name = 'wget-macos',
+  met = [
+    shell('brew cask list alacritty'),
+  ],
+  meet = [
+    shell('brew cask install alacritty'),
+  ],
+  enable = os() == 'darwin',
+)
+
+wget = dep(
+  name = 'wget',
+  requires = [
+    wget_linux,
+    wget_macos,
+  ]
 )
