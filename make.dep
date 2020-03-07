@@ -12,7 +12,7 @@ make_linux = dep(
 make_macos = dep(
   name = 'make-macos',
   met = [
-    shell("which make | grep 'gnubin/make'"),
+    shell("which make | grep 'gnubin/make'", login=True),
   ],
   meet = [
     shell('brew install make'),
